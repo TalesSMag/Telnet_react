@@ -3,7 +3,7 @@ import axios from "axios";
 import API_URL from "@/config/api";
 
 export default function Login({ onLoginSuccess }) {
-  console.log("NEXT_PUBLIC_API_URL =", process.env.NEXT_PUBLIC_API_URL); // ✅ debug
+  console.log("VITE_API_URL =", import.meta.env.VITE_API_URL); // ✅ debug
   console.log("API_URL importado =", API_URL); // ✅ debug do arquivo de config
   
   const [usuario, setUsuario] = useState("");
