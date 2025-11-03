@@ -13,7 +13,7 @@ export default function Login({ onLoginSuccess }) {
 
     try {
       const res = await axios.post(
-        "${API_URL}/auth/login",
+      `${API_URL}/auth/login`,
         { usuario, senha },
         { withCredentials: true }
       );
