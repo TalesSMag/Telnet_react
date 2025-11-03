@@ -350,7 +350,7 @@ function CadastroForm({ titulo, endpoint, campos, onCadastroSucesso, initialData
   
         // 🧩 Insere os materiais no MaterialPedido
         for (let material of materiaisParaSalvar) {
-          await fetch("${API_URL}/api/materialpedido", {
+          await fetch(`${API_URL}/api/materialpedido`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(material)
