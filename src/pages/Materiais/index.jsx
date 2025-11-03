@@ -4,6 +4,7 @@ import Nav from "../../components/Nav";
 import "./styles.css";
 import { FaEdit, FaTrash, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { useLocation, useNavigate } from "react-router-dom";
+import API_URL from "@/config/api";
 
 function Materiais({ usuario, onLogout }) {
   const [materiais, setMateriais] = useState([]);
@@ -31,10 +32,10 @@ function Materiais({ usuario, onLogout }) {
       
       if (termo && termo.trim()) {
         // 🔥 USA A ROTA DE BUSCA PAGINADA
-        url = `http://localhost:3003/api/material/search?termo=${encodeURIComponent(termo)}&page=${pagina}&limit=${limit}`;
+        url = `${API_URL}/api/material/search?termo=${encodeURIComponent(termo)}&page=${pagina}&limit=${limit}`;
       } else {
         // Listagem normal
-        url = `http://localhost:3003/api/material?page=${pagina}&limit=${limit}`;
+        url = `${API_URL}/api/material?page=${pagina}&limit=${limit}`;
       }
       
       console.log("🔍 Carregando:", url);
