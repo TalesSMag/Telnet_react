@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react"; 
 import { useNavigate, useLocation } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
+import API_URL from "@/config/api";
 
 function Search() {
   const [termo, setTermo] = useState("");
@@ -88,7 +89,7 @@ function Search() {
     try {
       console.log("🔍 Buscando:", termo);
       const res = await fetch(
-        `http://localhost:3003/api/search?termo=${encodeURIComponent(termo)}`
+        `${API_URL}/api/search?termo=${encodeURIComponent(termo)}`
       );
       const data = await res.json();
 
