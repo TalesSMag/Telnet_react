@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import API_URL from "@/config/api";
 
 export default function Login({ onLoginSuccess }) {
   const [usuario, setUsuario] = useState("");
@@ -12,7 +13,7 @@ export default function Login({ onLoginSuccess }) {
 
     try {
       const res = await axios.post(
-        "http://localhost:3003/auth/login",
+        "${API_URL}/auth/login",
         { usuario, senha },
         { withCredentials: true }
       );
