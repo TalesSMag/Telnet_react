@@ -4,6 +4,7 @@ import Nav from "../../components/Nav";
 import "./styles.css";
 import { FaEdit, FaTrash, FaChevronLeft, FaChevronRight, FaFileDownload } from "react-icons/fa";
 import { useLocation, useNavigate } from "react-router-dom";
+import API_URL from "@/config/api";
 
 // ... manter imports do PDF
 import jsPDF from "jspdf";
@@ -35,9 +36,9 @@ function Servico({ usuario, onLogout }) {
       let url;
       
       if (termo && termo.trim()) {
-        url = `http://localhost:3003/api/servico/search?termo=${encodeURIComponent(termo)}&page=${pagina}&limit=${limit}`;
+        url = `${API_URL}/api/servico/search?termo=${encodeURIComponent(termo)}&page=${pagina}&limit=${limit}`;
       } else {
-        url = `http://localhost:3003/api/servico?page=${pagina}&limit=${limit}`;
+        url = `${API_URL}/api/servico?page=${pagina}&limit=${limit}`;
         if (termo) url += `&termo=${encodeURIComponent(termo)}`;
       }
       
