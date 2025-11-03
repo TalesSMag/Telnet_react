@@ -4,6 +4,7 @@ import Nav from "../../components/Nav";
 import "./styles.css";
 import { FaEdit, FaTrash, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { useLocation, useNavigate } from "react-router-dom";
+import API_URL from "@/config/api";
 
 function Clientes({ usuario, onLogout }) {
   const [clientes, setClientes] = useState([]);
@@ -30,9 +31,9 @@ function Clientes({ usuario, onLogout }) {
       let url;
       
       if (termo && termo.trim()) {
-        url = `http://localhost:3003/api/cliente/search?termo=${encodeURIComponent(termo)}&page=${pagina}&limit=${limit}`;
+        url = `${API_URL}/cliente/search?termo=${encodeURIComponent(termo)}&page=${pagina}&limit=${limit}`;
       } else {
-        url = `http://localhost:3003/api/cliente?page=${pagina}&limit=${limit}`;
+        url = `${API_URL}/api/cliente?page=${pagina}&limit=${limit}`;
       }
       
       console.log("🔍 Carregando clientes:", url);
