@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { IMaskInput } from "react-imask"; // máscara segura
 import { AiFillPlusCircle } from 'react-icons/ai';
+import API_URL from "@/config/api";
 import "./styles.css";
 
 function CadastroForm({ titulo, endpoint, campos, onCadastroSucesso, initialData, editingId, onClose, camposExtras = [] }) {
@@ -46,7 +47,7 @@ function CadastroForm({ titulo, endpoint, campos, onCadastroSucesso, initialData
     }
     setCarregandoClientes(true);
     try {
-      const res = await fetch(`http://localhost:3003/api/cliente/search?termo=${nome}`);
+      const res = await fetch(`${API_URL}/api/cliente/search?termo=${nome}`);
       if (res.ok) {
         const dados = await res.json();
         setClientesSugeridos(dados);
@@ -80,7 +81,7 @@ function CadastroForm({ titulo, endpoint, campos, onCadastroSucesso, initialData
     }
     setCarregandoTecnicos(true);
     try {
-      const res = await fetch(`http://localhost:3003/api/tecnico/search?termo=${nome}`);
+      const res = await fetch(`${API_URL}/api/tecnico/search?termo=${nome}`);
       if (res.ok) {
         const dados = await res.json();
         setTecnicosSugeridos(dados);
@@ -111,7 +112,7 @@ function CadastroForm({ titulo, endpoint, campos, onCadastroSucesso, initialData
     try {
       // OBS: usa a rota de search que você definiu no backend
       const res = await fetch(
-        `http://localhost:3003/api/material/search?termo=${encodeURIComponent(
+        `${API_URL}/api/material/search?termo=${encodeURIComponent(
           term
         )}`
       );
@@ -284,11 +285,11 @@ function CadastroForm({ titulo, endpoint, campos, onCadastroSucesso, initialData
         // 🧹 Remove materiais antigos (se editando)
         if (editingId) {
           console.log("🧹 Removendo materiais antigos do serviço:", editingId);
-          const resMateriais = await fetch(`http://localhost:3003/api/materialpedido/servico/${editingId}`);
+          const resMateriais = await fetch(`${API_URL}/api/materialpedido/servico/${editingId}`);
           if (resMateriais.ok) {
             const materiaisAntigos = await resMateriais.json();
             for (let material of materiaisAntigos) {
-              await fetch(`http://localhost:3003/api/materialpedido/${material.id}`, {
+              await fetch(`${API_URL}/api/materialpedido/${material.id}`, {
                 method: "DELETE",
               });
             }
@@ -309,7 +310,7 @@ function CadastroForm({ titulo, endpoint, campos, onCadastroSucesso, initialData
             console.log("🔄 Criando material pendente:", m.descricao);
             
             try {
-              const resMaterial = await fetch("http://localhost:3003/api/material", {
+              const resMaterial = await fetch("${API_URL}/api/material", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -349,7 +350,7 @@ function CadastroForm({ titulo, endpoint, campos, onCadastroSucesso, initialData
   
         // 🧩 Insere os materiais no MaterialPedido
         for (let material of materiaisParaSalvar) {
-          await fetch("http://localhost:3003/api/materialpedido", {
+          await fetch("${API_URL}/api/materialpedido", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(material)
