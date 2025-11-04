@@ -506,7 +506,7 @@ function Servico({ usuario, onLogout }) {
     <CadastroForm
       key={editandoId || "novo"}
       titulo="Cadastro de Serviço"
-      endpoint="http://localhost:3003/api/servico"
+      endpoint={`${API_URL}/api/servico`}
       campos={[
         { nome: "tecnico", label: "Técnico", tipo: "especial", required: true },
         { nome: "nome", label: "Cliente", tipo: "especial", required: true },
