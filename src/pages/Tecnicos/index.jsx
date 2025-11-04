@@ -258,7 +258,7 @@ function Tecnicos({ usuario, onLogout }) {
       <CadastroForm
         key={editandoId || "novo"}
         titulo="Cadastro de Técnico"
-        endpoint="http://localhost:3003/api/tecnico"
+        endpoint={`${API_URL}/api/tecnico`}
         campos={[
           { nome: "nome", label: "Nome", required: true },
           { nome: "CPF", label: "CPF", required: true },
