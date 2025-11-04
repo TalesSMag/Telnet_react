@@ -293,7 +293,7 @@ function Materiais({ usuario, onLogout }) {
       <CadastroForm
         key={editandoId || "novo"}
         titulo="Cadastro de Materiais"
-        endpoint="http://localhost:3003/api/material"
+        endpoint={`${API_URL}/api/material`}
         campos={[
           { nome: "descricao", label: "Descrição", required: true },
           { nome: "marca", label: "Marca" },
