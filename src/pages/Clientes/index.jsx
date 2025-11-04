@@ -258,7 +258,7 @@ function Clientes({ usuario, onLogout }) {
       <CadastroForm
         key={editandoId || "novo"}
         titulo="Cadastro de Clientes"
-        endpoint="`${API_URL}/api/cliente`"
+        endpoint={`${API_URL}/api/cliente`}
         campos={[
           { nome: "nome", label: "Nome", required: true },
           { nome: "contato", label: "Contato" },
