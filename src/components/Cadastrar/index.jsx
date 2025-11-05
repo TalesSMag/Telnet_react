@@ -30,15 +30,93 @@ function CadastroForm({ titulo, endpoint, campos, onCadastroSucesso, initialData
     }
   }, [initialData]);
 
-  const handleChange = (nome, valor, e) => {
-    if (e?.target?.type === "file") {
-      // arquivo
-      setFile(e.target.files[0]);
+  const handleFileUpload = async (file) => {
+  if (!file) return;
+
+  const formData = new FormData();
+  formData.append("file", file);
+
+  try {
+    setMensagem({ tipo: "info", texto: "📂 Enviando e processando arquivo, aguarde..." });
+
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/material/upload`, {
+      method: "POST",
+      body: formData,
+    });
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      throw new Error(result.msg || "Erro ao processar o arquivo");
+    }
+
+    setMensagem({
+      tipo: "sucesso",
+      texto: `✅ ${result.msg} — ${result.count} registros (Inseridos: ${result.inseridos}, Atualizados: ${result.atualizados})`,
+    });
+
+    // 🔁 Atualiza a listagem após upload, se a função estiver disponível
+    if (typeof onCadastroSucesso === "function") {
+      onCadastroSucesso();
+    }
+
+    } catch (error) {
+      console.error("Erro no upload:", error);
+      setMensagem({
+        tipo: "erro",
+        texto: "❌ Falha ao enviar o arquivo: " + error.message,
+      });
+    }
+  };
+
+  const handleChange = async (nome, valor, e) => {
+  if (e?.target?.type === "file") {
+    const arquivo = e.target.files[0];
+    setFile(arquivo);
+
+    if (!arquivo) return;
+
+    const formDataUpload = new FormData();
+    formDataUpload.append("file", arquivo);
+
+    try {
+      setMensagem({ tipo: "info", texto: "📂 Enviando e processando arquivo, aguarde..." });
+
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/material/upload`, {
+        method: "POST",
+        body: formDataUpload,
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.msg || "Erro ao processar o arquivo");
+      }
+
+      setMensagem({
+        tipo: "sucesso",
+        texto: `✅ ${result.msg} — ${result.count} registros (Inseridos: ${result.inseridos}, Atualizados: ${result.atualizados})`,
+      });
+
+      // Atualiza tabela automaticamente, se callback estiver definido
+      if (typeof onCadastroSucesso === "function") {
+        onCadastroSucesso();
+      }
+
+    } catch (error) {
+      console.error("Erro no upload:", error);
+      setMensagem({
+        tipo: "erro",
+        texto: "❌ Falha ao enviar o arquivo: " + error.message,
+      });
+    }
+
     } else if (nome && typeof nome === "string") {
       // campo normal
       setFormData((prev) => ({ ...prev, [nome]: valor }));
     }
   };
+
 
   const buscarCliente = async (nome) => {
     if (!nome || nome.length < 2) {
@@ -211,204 +289,189 @@ function CadastroForm({ titulo, endpoint, campos, onCadastroSucesso, initialData
     return valorServico + valorMateriais;
   };
   
-  const handleSubmit = async (e) => { 
-    e.preventDefault();
-    
-    try {
-      // 🔹 1) Validação dos campos obrigatórios
-      for (let campo of campos) {
-        if (campo.required && !formData[campo.nome]) {
-          alert(`O campo "${campo.label}" é obrigatório!`);
-          return;
-        }
-      }
-  
-      // 🔹 2) MONTA PAYLOAD DINÂMICO baseado no endpoint
-      let payload = {};
-      
-      if (endpoint.includes('/servico')) {
-        // 🔹 PAYLOAD PARA SERVIÇO
-        payload = {
-          cliente: { id: formData.cliente_id },
-          tecnico: { id: formData.tecnico?.id },
-          status: formData.status || 1,
-          descricaoServico: formData.descricaoServico,
-          horaChegada: formData.horaChegada,
-          horaSaida: formData.horaSaida,
-          data: formData.data,
-          kilometragem: parseInt(formData.kilometragem) || 0,
-          valorServico: parseFloat(formData.valorServico) || 0,
-          valorMateriais: calcularTotalMateriais(),
-        };
-        
-        console.log("👉 Enviando payload de SERVIÇO:", payload);
-        
-      } else if (endpoint.includes('/material')) {
-        // 🔹 PAYLOAD PARA MATERIAL
-        payload = {
-          descricao: formData.descricao,
-          marca: formData.marca || "",
-          preco: parseFloat(formData.preco) || 0,
-          // 🔹 Se estiver editando um material incompleto e agora tem dados, marca como completo
-          incompleto: !(formData.marca && formData.marca.trim() !== "" && formData.preco && formData.preco > 0)
-        };
-        
-        console.log("👉 Enviando payload de MATERIAL:", payload);
-        
-      } else {
-        // 🔹 PAYLOAD GENÉRICO para outros endpoints (cliente, tecnico, etc)
-        payload = { ...formData };
-        console.log("👉 Enviando payload GENÉRICO:", payload);
-      }
-  
-      // 🔹 3) Envia para o backend (cria ou atualiza)
-      const url = editingId ? `${endpoint}/${editingId}` : endpoint;
-      const method = editingId ? "PUT" : "POST";
-  
-      const res = await fetch(url, {
-        method,
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify(payload),
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  try {
+    // 🔹 1) Se houver arquivo, processa upload e ignora validações de campos
+    if (file) {
+      const formDataFile = new FormData();
+      formDataFile.append("file", file);
+
+      const uploadRes = await fetch(`${API_URL}/api/importarMateriais`, {
+        method: "POST",
+        body: formDataFile,
       });
-  
-      if (!res.ok) {
-        const errText = await res.text();
-        throw new Error(`Erro ao salvar: ${errText}`);
+
+      if (!uploadRes.ok) {
+        const errText = await uploadRes.text();
+        throw new Error(`Erro ao importar arquivo: ${errText}`);
       }
-  
-      const resultadoSalvo = await res.json();
-      console.log("✅ Salvo com sucesso:", resultadoSalvo);
-  
-      // 🔹 4) LÓGICA ESPECÍFICA PARA SERVIÇOS (materiais)
-      if (endpoint.includes('/servico') && formData.materiais?.length > 0) {
-        // 🧹 Remove materiais antigos (se editando)
-        if (editingId) {
-          console.log("🧹 Removendo materiais antigos do serviço:", editingId);
-          const resMateriais = await fetch(`${API_URL}/api/materialpedido/servico/${editingId}`);
-          if (resMateriais.ok) {
-            const materiaisAntigos = await resMateriais.json();
-            for (let material of materiaisAntigos) {
-              await fetch(`${API_URL}/api/materialpedido/${material.id}`, {
-                method: "DELETE",
-              });
-            }
-            console.log(`✅ ${materiaisAntigos.length} materiais antigos removidos`);
-          }
-        }
-  
-        // 🔄 SINCRONIZA MATERIAIS PENDENTES
-        const materiaisParaSalvar = [];
-        const materiaisCriados = [];
-        
-        for (let m of formData.materiais) {
-          let materialId = m.id;
-          let materialCriadoComSucesso = true;
-          
-          // Se é material pendente, cria no banco (mesmo incompleto)
-          if (m._status === 'pendente') {
-            console.log("🔄 Criando material pendente:", m.descricao);
-            
-            try {
-              const resMaterial = await fetch("${API_URL}/api/material", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                  descricao: m.descricao,
-                  preco: m.preco || 0.01,
-                  marca: "Pendente",
-                  incompleto: true
-                })
-              });
-              
-              if (!resMaterial.ok) {
-                const errorText = await resMaterial.text();
-                console.error("❌ Erro ao criar material:", errorText);
-                materialCriadoComSucesso = false;
-              } else {
-                const materialCriado = await resMaterial.json();
-                materialId = materialCriado.id;
-                materiaisCriados.push(m.descricao);
-                console.log("✅ Material criado (incompleto):", materialCriado);
-              }
-            } catch (error) {
-              console.error("❌ Erro na criação do material:", error);
-              materialCriadoComSucesso = false;
-            }
-          }
-          
-          // 🔹 SÓ adiciona à lista se o material foi criado com sucesso
-          if (materialCriadoComSucesso && !materialId.toString().includes('pendente_')) {
-            materiaisParaSalvar.push({
-              servico_id: editingId || resultadoSalvo.id,
-              cliente_id: formData.cliente_id,
-              materiais_id: materialId,
-              quantidade: m.quantidade
+
+      const result = await uploadRes.json();
+      console.log("✅ Materiais importados com sucesso:", result);
+
+      setMensagem({
+        tipo: "sucesso",
+        texto: `Arquivo importado com sucesso! ${result.count || ""} materiais adicionados.`,
+      });
+
+      if (onCadastroSucesso) onCadastroSucesso();
+      if (onClose) onClose();
+      setFormData({});
+      setFile(null);
+      return;
+    }
+
+    // 🔹 2) Validação dos campos obrigatórios (somente se não houver upload)
+    for (let campo of campos) {
+      if (campo.required && !formData[campo.nome]) {
+        alert(`O campo "${campo.label}" é obrigatório!`);
+        return;
+      }
+    }
+
+    // 🔹 3) Monta payload conforme o endpoint
+    let payload = {};
+
+    if (endpoint.includes("/servico")) {
+      payload = {
+        cliente: { id: formData.cliente_id },
+        tecnico: { id: formData.tecnico?.id },
+        status: formData.status || 1,
+        descricaoServico: formData.descricaoServico,
+        horaChegada: formData.horaChegada,
+        horaSaida: formData.horaSaida,
+        data: formData.data,
+        kilometragem: parseInt(formData.kilometragem) || 0,
+        valorServico: parseFloat(formData.valorServico) || 0,
+        valorMateriais: calcularTotalMateriais(),
+      };
+      console.log("👉 Payload de SERVIÇO:", payload);
+    } else if (endpoint.includes("/material")) {
+      payload = {
+        descricao: formData.descricao,
+        marca: formData.marca || "",
+        preco: parseFloat(formData.preco) || 0,
+        incompleto: !(
+          formData.marca &&
+          formData.marca.trim() !== "" &&
+          formData.preco &&
+          formData.preco > 0
+        ),
+      };
+      console.log("👉 Payload de MATERIAL:", payload);
+    } else {
+      payload = { ...formData };
+      console.log("👉 Payload GENÉRICO:", payload);
+    }
+
+    // 🔹 4) Cria ou atualiza no backend
+    const url = editingId ? `${endpoint}/${editingId}` : endpoint;
+    const method = editingId ? "PUT" : "POST";
+
+    const res = await fetch(url, {
+      method,
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify(payload),
+    });
+
+    if (!res.ok) {
+      const errText = await res.text();
+      throw new Error(`Erro ao salvar: ${errText}`);
+    }
+
+    const resultadoSalvo = await res.json();
+    console.log("✅ Registro salvo com sucesso:", resultadoSalvo);
+
+    // 🔹 5) Lógica adicional — sincronização de materiais do serviço
+    if (endpoint.includes("/servico") && formData.materiais?.length > 0) {
+      // 🧹 Remove materiais antigos se estiver editando
+      if (editingId) {
+        console.log("🧹 Removendo materiais antigos do serviço:", editingId);
+        const resMateriais = await fetch(
+          `${API_URL}/api/materialpedido/servico/${editingId}`
+        );
+        if (resMateriais.ok) {
+          const antigos = await resMateriais.json();
+          for (let mat of antigos) {
+            await fetch(`${API_URL}/api/materialpedido/${mat.id}`, {
+              method: "DELETE",
             });
           }
-        }
-  
-        // 🧩 Insere os materiais no MaterialPedido
-        for (let material of materiaisParaSalvar) {
-          await fetch(`${API_URL}/api/materialpedido`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(material)
-          });
-        }
-  
-        // Mensagem sobre materiais criados
-        if (materiaisCriados.length > 0) {
-          setMensagem(prev => ({
-            ...prev,
-            texto: `${prev.texto}\n• ${materiaisCriados.length} material(ais) criado(s) e marcado(s) como pendente.`
-          }));
+          console.log(`✅ ${antigos.length} materiais antigos removidos`);
         }
       }
-  
-      // 🔹 5) Callbacks de sucesso
-      setMensagem({ 
-        tipo: 'sucesso', 
-        texto: editingId ? `${titulo.replace('Cadastro de ', '')} atualizado com sucesso!` : `${titulo.replace('Cadastro de ', '')} cadastrado com sucesso!` 
-      });
-  
-      // 🔹 MOSTRA a mensagem por 2 segundos ANTES de fechar
-      setTimeout(() => {
-        // Fecha o offcanvas programaticamente
-        const offcanvasElement = document.getElementById('cadastroOffcanvas');
-        if (offcanvasElement) {
-          const offcanvas = window.bootstrap.Offcanvas.getInstance(offcanvasElement);
-          if (offcanvas) {
-            offcanvas.hide();
-          }
+
+      // 🔄 Recria vínculos atualizados
+      for (let m of formData.materiais) {
+        let materialId = m.id;
+
+        // Se for material pendente, cria automaticamente
+        if (m._status === "pendente") {
+          const resMat = await fetch(`${API_URL}/api/material`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              descricao: m.descricao,
+              preco: m.preco || 0.01,
+              marca: "Pendente",
+              incompleto: true,
+            }),
+          });
+
+          const criado = await resMat.json();
+          materialId = criado.id;
         }
-  
-        // 🔹 REMOVE MANUALMENTE O BACKDROP ESCURO
-        const backdrop = document.querySelector('.offcanvas-backdrop');
-        if (backdrop) {
-          backdrop.remove();
-        }
-        
-        // 🔹 REMOVE A CLASSE DO BODY QUE CAUSA O OVERFLOW HIDDEN
-        document.body.classList.remove('offcanvas-open');
-        document.body.style.overflow = '';
-        document.body.style.paddingRight = '';
-  
-        // Limpa a mensagem
-        setMensagem({ tipo: '', texto: '' });
-        
-        // Callbacks
-        if (onCadastroSucesso) onCadastroSucesso();
-        if (onClose) onClose();
-  
-        setFormData({});
-      }, 2000);
-  
-    } catch (err) {
-      console.error("Erro no cadastro:", err);
-      alert(err.message || "Erro ao salvar. Verifique os dados.");
+
+        await fetch(`${API_URL}/api/materialpedido`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            servico_id: editingId || resultadoSalvo.id,
+            cliente_id: formData.cliente_id,
+            materiais_id: materialId,
+            quantidade: m.quantidade,
+            precoUnitario: m.preco || 0,
+          }),
+        });
+      }
     }
-  };
+
+    // 🔹 6) Mensagem de sucesso + fechamento
+    setMensagem({
+      tipo: "sucesso",
+      texto: editingId
+        ? `${titulo.replace("Cadastro de ", "")} atualizado com sucesso!`
+        : `${titulo.replace("Cadastro de ", "")} cadastrado com sucesso!`,
+    });
+
+    setTimeout(() => {
+      const offcanvasElement = document.getElementById("cadastroOffcanvas");
+      if (offcanvasElement) {
+        const offcanvas = window.bootstrap.Offcanvas.getInstance(offcanvasElement);
+        if (offcanvas) offcanvas.hide();
+      }
+
+      const backdrop = document.querySelector(".offcanvas-backdrop");
+      if (backdrop) backdrop.remove();
+
+      document.body.classList.remove("offcanvas-open");
+      document.body.style.overflow = "";
+      document.body.style.paddingRight = "";
+
+      setMensagem({ tipo: "", texto: "" });
+      if (onCadastroSucesso) onCadastroSucesso();
+      if (onClose) onClose();
+      setFormData({});
+    }, 2000);
+  } catch (err) {
+    console.error("❌ Erro no cadastro:", err);
+    alert(err.message || "Erro ao salvar. Verifique os dados.");
+  }
+};
+
   
   return (
     <div
@@ -752,7 +815,7 @@ function CadastroForm({ titulo, endpoint, campos, onCadastroSucesso, initialData
                 type={extra.tipo}
                 name={extra.nome || `extra-${idx}`}
                 accept={extra.accept}
-                onChange={(e) => handleChange(extra.nome || `extra-${idx}`, e.target.files[0], e)}
+                onChange={(e) => handleChange(extra.nome || `extra-${idx}`, e.target.value, e)}
               />
             </div>
           ))}
