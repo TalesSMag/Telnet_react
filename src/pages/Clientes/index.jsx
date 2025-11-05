@@ -139,7 +139,7 @@ function Clientes({ usuario, onLogout }) {
 
   const handleExcluir = (id) => {
     if (window.confirm("Deseja realmente excluir este cliente?")) {
-      fetch(`http://localhost:3003/api/cliente/${id}`, {
+      fetch(`${API_URL}/api/cliente/${id}`, {
         method: "DELETE",
         credentials: "include"
       })
