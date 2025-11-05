@@ -299,6 +299,9 @@ function Materiais({ usuario, onLogout }) {
           { nome: "marca", label: "Marca" },
           { nome: "preco", label: "Preço", type: "number", step: "0.01", required: true },
         ]}
+        camposExtras={[
+          { tipo: "file", label: "Upload de arquivo (CSV/XLSX)", accept: ".csv,.xlsx" }
+        ]}
         initialData={materialSelecionado}
         editingId={editandoId}
         onCadastroSucesso={carregarMateriais}
