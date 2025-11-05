@@ -139,7 +139,7 @@ function Tecnicos({ usuario, onLogout }) {
 
   const handleExcluir = (id) => {
     if (window.confirm("Deseja realmente excluir este técnico?")) {
-      fetch(`http://localhost:3003/api/tecnico/${id}`, {
+      fetch(`${API_URL}/api/tecnico/${id}`, {
         method: "DELETE",
         credentials: "include"
       })
