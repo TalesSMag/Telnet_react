@@ -298,7 +298,7 @@ function CadastroForm({ titulo, endpoint, campos, onCadastroSucesso, initialData
       const formDataFile = new FormData();
       formDataFile.append("file", file);
 
-      const uploadRes = await fetch(`${API_URL}/api/importarMateriais`, {
+      const uploadRes = await fetch(`${API_URL}/api/material/upload`, {
         method: "POST",
         body: formDataFile,
       });
