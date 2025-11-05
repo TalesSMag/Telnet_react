@@ -134,7 +134,7 @@ function Materiais({ usuario, onLogout }) {
 
   const handleExcluir = (id) => {
     if (window.confirm("Deseja realmente excluir este material?")) {
-      fetch(`http://localhost:3003/api/material/${id}`, {
+      fetch(`${API_URL}/api/material/${id}`, {
         method: "DELETE",
         credentials: "include"
       })
