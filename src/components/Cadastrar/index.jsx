@@ -316,17 +316,25 @@ function CadastroForm({ titulo, endpoint, campos, onCadastroSucesso, initialData
         texto: `Arquivo importado com sucesso! ${result.count || ""} materiais adicionados.`,
       });
 
-      // ✅ Fecha o offcanvas após o upload
-      const offcanvasElement = document.getElementById("cadastroOffcanvas");
-      if (offcanvasElement) {
-        const offcanvas = window.bootstrap.Offcanvas.getInstance(offcanvasElement);
-        if (offcanvas) offcanvas.hide();
-      }
-      const backdrop = document.querySelector(".offcanvas-backdrop");
-      if (backdrop) backdrop.remove();
-      document.body.classList.remove("offcanvas-open");
-      document.body.style.overflow = "";
-      document.body.style.paddingRight = "";
+      // ⏱️ Espera 2 segundos antes de fechar o offcanvas
+      setTimeout(() => {
+        const offcanvasElement = document.getElementById("cadastroOffcanvas");
+        if (offcanvasElement) {
+          const offcanvas = window.bootstrap.Offcanvas.getInstance(offcanvasElement);
+          if (offcanvas) offcanvas.hide();
+        }
+    
+        const backdrop = document.querySelector(".offcanvas-backdrop");
+        if (backdrop) backdrop.remove();
+        document.body.classList.remove("offcanvas-open");
+        document.body.style.overflow = "";
+        document.body.style.paddingRight = "";
+    
+        if (onCadastroSucesso) onCadastroSucesso();
+        if (onClose) onClose();
+        setFormData({});
+        setFile(null);
+      }, 2000);
 
       if (onCadastroSucesso) onCadastroSucesso();
       if (onClose) onClose();
