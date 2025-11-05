@@ -132,7 +132,7 @@ function Servico({ usuario, onLogout }) {
 
   const handleExcluir = (id) => {
     if (window.confirm("Deseja realmente excluir este serviço?")) {
-      fetch(`http://localhost:3003/api/servico/${id}`, {
+      fetch(`${API_URL}/api/servico/${id}`, {
         method: "DELETE",
         credentials: "include"
       })
