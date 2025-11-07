@@ -316,36 +316,37 @@ function CadastroForm({ titulo, endpoint, campos, onCadastroSucesso, initialData
         texto: `Arquivo importado com sucesso! ${result.count || ""} materiais adicionados.`,
       });
     
-      // ✅ Aguarda 2 segundos antes de fechar automaticamente
+      // ✅ Exibe mensagem por 1,5s e fecha o offcanvas em seguida
       setTimeout(() => {
-        const offcanvasElement = document.getElementById("cadastroOffcanvas");
-      
-        if (offcanvasElement) {
-          // Força fechamento via classes, independente da instância do Bootstrap
-          offcanvasElement.classList.remove("show");
-          offcanvasElement.setAttribute("aria-hidden", "true");
-          offcanvasElement.style.visibility = "hidden";
-        }
-      
-        // ✅ Remove backdrop manualmente
-        const backdrop = document.querySelector(".offcanvas-backdrop");
-        if (backdrop) backdrop.remove();
-      
-        // ✅ Restaura estado do body
-        document.body.classList.remove("offcanvas-open");
-        document.body.style.overflow = "";
-        document.body.style.paddingRight = "";
-      
-        // ✅ Atualiza tabela e fecha offcanvas
-        if (onCadastroSucesso) onCadastroSucesso();
-        if (onClose) onClose();
-      
-        // ✅ Limpa estados
-        setFormData({});
-        setFile(null);
+        // Faz a mensagem desaparecer
         setMensagem(prev => ({ ...prev, texto: "" }));
+      
+        // Fecha o offcanvas 0.5s depois
+        setTimeout(() => {
+          const offcanvasElement = document.getElementById("cadastroOffcanvas");
+      
+          if (offcanvasElement) {
+            offcanvasElement.classList.remove("show");
+            offcanvasElement.setAttribute("aria-hidden", "true");
+            offcanvasElement.style.visibility = "hidden";
+          }
+      
+          const backdrop = document.querySelector(".offcanvas-backdrop");
+          if (backdrop) backdrop.remove();
+      
+          document.body.classList.remove("offcanvas-open");
+          document.body.style.overflow = "";
+          document.body.style.paddingRight = "";
+      
+          if (onCadastroSucesso) onCadastroSucesso();
+          if (onClose) onClose();
+      
+          setFormData({});
+          setFile(null);
+        }, 500); // ⏱️ fecha após 0.5s
+      
+      }, 1500); // ⏱️ mensagem visível por 1.5s
 
-      }, 2000);
       
       return;
     }
