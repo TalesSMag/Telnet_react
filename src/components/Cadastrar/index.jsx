@@ -28,7 +28,7 @@ function CadastroForm({ titulo, endpoint, campos, onCadastroSucesso, initialData
     } else {
       setFormData({});
     }
-  }, [initialData]);
+  }, [initialData, editingId]);
 
   const handleFileUpload = async (file) => {
   if (!file) return;
