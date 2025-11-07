@@ -291,7 +291,6 @@ function Materiais({ usuario, onLogout }) {
       
       {/* Cadastro genérico configurado */}
       <CadastroForm
-        key={editandoId || "novo"}
         titulo="Cadastro de Materiais"
         endpoint={`${API_URL}/api/material`}
         campos={[
