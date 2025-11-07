@@ -321,10 +321,10 @@ function CadastroForm({ titulo, endpoint, campos, onCadastroSucesso, initialData
         console.log("⏳ Tentando fechar offcanvas...");
       
         // Força referência ao elemento (às vezes o re-render remove o ID temporariamente)
-        const offcanvasElement = document.querySelector('[id="cadastroOffcanvas"].offcanvas');
+        const offcanvasElement = document.getElementById("cadastroOffcanvas");
       
         if (offcanvasElement) {
-          let offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasElement);
+          let offcanvasInstance = window.bootstrap?.Offcanvas?.getInstance(offcanvasElement);
       
           if (!offcanvasInstance) {
             console.log("⚠️ Nenhuma instância ativa, criando nova...");
