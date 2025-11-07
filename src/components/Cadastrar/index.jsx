@@ -336,10 +336,6 @@ function CadastroForm({ titulo, endpoint, campos, onCadastroSucesso, initialData
         setFile(null);
       }, 2000);
 
-      if (onCadastroSucesso) onCadastroSucesso();
-      if (onClose) onClose();
-      setFormData({});
-      setFile(null);
       return;
     }
 
