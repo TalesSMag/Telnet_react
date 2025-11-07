@@ -293,7 +293,7 @@ function CadastroForm({ titulo, endpoint, campos, onCadastroSucesso, initialData
   e.preventDefault();
 
   try {
-    // 🔹 1) Se houver arquivo, processa upload e ignora validações de campos 
+    // 🔹 1) Se houver arquivo, processa upload e ignora validações de campos
     if (file) {
       const formDataFile = new FormData();
       formDataFile.append("file", file);
@@ -316,17 +316,26 @@ function CadastroForm({ titulo, endpoint, campos, onCadastroSucesso, initialData
         texto: `Arquivo importado com sucesso! ${result.count || ""} materiais adicionados.`,
       });
     
-      // ✅ Aguarda 2 segundos antes de fechar o offcanvas
+      // ✅ Aguarda 2 segundos antes de fechar automaticamente
       setTimeout(() => {
         const offcanvasElement = document.getElementById("cadastroOffcanvas");
+    
         if (offcanvasElement) {
-          const offcanvas = window.bootstrap.Offcanvas.getInstance(offcanvasElement);
-          if (offcanvas) offcanvas.hide();
+          // Tenta obter a instância do offcanvas
+          let offcanvas = window.bootstrap.Offcanvas.getInstance(offcanvasElement);
+    
+          // Se não existir, cria uma nova instância
+          if (!offcanvas) {
+            offcanvas = new window.bootstrap.Offcanvas(offcanvasElement);
+          }
+    
+          offcanvas.hide();
         }
     
-        // ✅ Remove backdrop e reseta o scroll do body
+        // ✅ Remove backdrop e reseta o body
         const backdrop = document.querySelector(".offcanvas-backdrop");
         if (backdrop) backdrop.remove();
+    
         document.body.classList.remove("offcanvas-open");
         document.body.style.overflow = "";
         document.body.style.paddingRight = "";
