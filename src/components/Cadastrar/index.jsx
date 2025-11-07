@@ -318,51 +318,29 @@ function CadastroForm({ titulo, endpoint, campos, onCadastroSucesso, initialData
     
       // ✅ Aguarda 2 segundos antes de fechar automaticamente
       setTimeout(() => {
+        // Fecha o offcanvas usando o método oficial do Bootstrap
         const offcanvasElement = document.getElementById("cadastroOffcanvas");
-      
-        try {
-          // 🔹 Fecha via instância Bootstrap se disponível
-          if (window.bootstrap && window.bootstrap.Offcanvas) {
-            let offcanvasInstance = window.bootstrap.Offcanvas.getInstance(offcanvasElement);
-            if (!offcanvasInstance) {
-              offcanvasInstance = new window.bootstrap.Offcanvas(offcanvasElement);
-            }
+        if (offcanvasElement) {
+          const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasElement);
+          if (offcanvasInstance) {
             offcanvasInstance.hide();
           } else {
-            // 🔹 Força fechamento manualmente
-            if (offcanvasElement) {
-              offcanvasElement.classList.remove("show");
-              offcanvasElement.setAttribute("aria-hidden", "true");
-              offcanvasElement.style.visibility = "hidden";
-              offcanvasElement.style.display = "none";
-            }
+            // Se não houver instância, cria uma e fecha
+            new bootstrap.Offcanvas(offcanvasElement).hide();
           }
+        }
       
-          // 🔹 Remove backdrop manualmente
-          document.querySelectorAll(".offcanvas-backdrop").forEach(el => el.remove());
+        // ✅ Atualiza tabela e dispara fechamento lógico
+        if (onCadastroSucesso) onCadastroSucesso();
+        if (onClose) onClose();
       
-          // 🔹 Restaura o body
-          document.body.classList.remove("offcanvas-open");
-          document.body.style.overflow = "";
-          document.body.style.paddingRight = "";
-      
-          // 🔹 Limpa estados e atualiza listagem
+        // ✅ Limpa estados após mais 0.5s (para evitar conflito com transição)
+        setTimeout(() => {
           setFormData({});
           setFile(null);
-      
-          if (onCadastroSucesso) onCadastroSucesso();
-          if (onClose) onClose();
-      
-          // 🔹 Remove mensagem após 0.5s
-          setTimeout(() => {
-            setMensagem({ tipo: "", texto: "" });
-          }, 500);
-      
-        } catch (err) {
-          console.error("Erro ao tentar fechar o offcanvas:", err);
-        }
+          setMensagem({ texto: "", tipo: "" });
+        }, 500);
       }, 2000);
-
       
       return;
     }
