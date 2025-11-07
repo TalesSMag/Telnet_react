@@ -319,33 +319,32 @@ function CadastroForm({ titulo, endpoint, campos, onCadastroSucesso, initialData
       // ✅ Aguarda 2 segundos antes de fechar automaticamente
       setTimeout(() => {
         const offcanvasElement = document.getElementById("cadastroOffcanvas");
-    
+      
         if (offcanvasElement) {
-          // Tenta obter a instância do offcanvas
-          let offcanvas = window.bootstrap.Offcanvas.getInstance(offcanvasElement);
-    
-          // Se não existir, cria uma nova instância
-          if (!offcanvas) {
-            offcanvas = new window.bootstrap.Offcanvas(offcanvasElement);
-          }
-    
-          offcanvas.hide();
+          // Força fechamento via classes, independente da instância do Bootstrap
+          offcanvasElement.classList.remove("show");
+          offcanvasElement.setAttribute("aria-hidden", "true");
+          offcanvasElement.style.visibility = "hidden";
         }
-    
-        // ✅ Remove backdrop e reseta o body
+      
+        // ✅ Remove backdrop manualmente
         const backdrop = document.querySelector(".offcanvas-backdrop");
         if (backdrop) backdrop.remove();
-    
+      
+        // ✅ Restaura estado do body
         document.body.classList.remove("offcanvas-open");
         document.body.style.overflow = "";
         document.body.style.paddingRight = "";
-    
+      
+        // ✅ Atualiza tabela e fecha offcanvas
         if (onCadastroSucesso) onCadastroSucesso();
         if (onClose) onClose();
-    
+      
+        // ✅ Limpa estados
         setFormData({});
         setFile(null);
       }, 2000);
+
     
       return;
     }
