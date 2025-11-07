@@ -293,30 +293,30 @@ function CadastroForm({ titulo, endpoint, campos, onCadastroSucesso, initialData
   e.preventDefault();
 
   try {
-    // 🔹 1) Se houver arquivo, processa upload e ignora validações de campos
+    // 🔹 1) Se houver arquivo, processa upload e ignora validações de campos 
     if (file) {
       const formDataFile = new FormData();
       formDataFile.append("file", file);
-
+    
       const uploadRes = await fetch(`${API_URL}/api/material/upload`, {
         method: "POST",
         body: formDataFile,
       });
-
+    
       if (!uploadRes.ok) {
         const errText = await uploadRes.text();
         throw new Error(`Erro ao importar arquivo: ${errText}`);
       }
-
+    
       const result = await uploadRes.json();
       console.log("✅ Materiais importados com sucesso:", result);
-
+    
       setMensagem({
         tipo: "sucesso",
         texto: `Arquivo importado com sucesso! ${result.count || ""} materiais adicionados.`,
       });
-
-      // ⏱️ Espera 2 segundos antes de fechar o offcanvas
+    
+      // ✅ Aguarda 2 segundos antes de fechar o offcanvas
       setTimeout(() => {
         const offcanvasElement = document.getElementById("cadastroOffcanvas");
         if (offcanvasElement) {
@@ -324,6 +324,7 @@ function CadastroForm({ titulo, endpoint, campos, onCadastroSucesso, initialData
           if (offcanvas) offcanvas.hide();
         }
     
+        // ✅ Remove backdrop e reseta o scroll do body
         const backdrop = document.querySelector(".offcanvas-backdrop");
         if (backdrop) backdrop.remove();
         document.body.classList.remove("offcanvas-open");
@@ -332,10 +333,11 @@ function CadastroForm({ titulo, endpoint, campos, onCadastroSucesso, initialData
     
         if (onCadastroSucesso) onCadastroSucesso();
         if (onClose) onClose();
+    
         setFormData({});
         setFile(null);
       }, 2000);
-
+    
       return;
     }
 
