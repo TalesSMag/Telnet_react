@@ -316,37 +316,46 @@ function CadastroForm({ titulo, endpoint, campos, onCadastroSucesso, initialData
         texto: `Arquivo importado com sucesso! ${result.count || ""} materiais adicionados.`,
       });
     
-      // ✅ Exibe mensagem por 1,5s e fecha o offcanvas em seguida
+      // ✅ Aguarda 2 segundos antes de fechar automaticamente
       setTimeout(() => {
-        // Faz a mensagem desaparecer
-        setMensagem(prev => ({ ...prev, texto: "" }));
+        // Fecha o offcanvas de forma confiável via instância Bootstrap
+        const offcanvasElement = document.getElementById("cadastroOffcanvas");
       
-        // Fecha o offcanvas 0.5s depois
-        setTimeout(() => {
-          const offcanvasElement = document.getElementById("cadastroOffcanvas");
+        if (offcanvasElement) {
+          let offcanvasInstance = window.bootstrap.Offcanvas.getInstance(offcanvasElement);
       
-          if (offcanvasElement) {
-            offcanvasElement.classList.remove("show");
-            offcanvasElement.setAttribute("aria-hidden", "true");
-            offcanvasElement.style.visibility = "hidden";
+          // 🔹 Se não existir instância, cria uma
+          if (!offcanvasInstance) {
+            offcanvasInstance = new window.bootstrap.Offcanvas(offcanvasElement);
           }
       
-          const backdrop = document.querySelector(".offcanvas-backdrop");
-          if (backdrop) backdrop.remove();
+          // 🔹 Fecha o offcanvas
+          offcanvasInstance.hide();
+        }
       
-          document.body.classList.remove("offcanvas-open");
-          document.body.style.overflow = "";
-          document.body.style.paddingRight = "";
+        // 🔹 Remove manualmente o backdrop se ainda existir
+        const backdrop = document.querySelector(".offcanvas-backdrop");
+        if (backdrop) backdrop.remove();
       
-          if (onCadastroSucesso) onCadastroSucesso();
-          if (onClose) onClose();
+        // 🔹 Restaura o estado do body
+        document.body.classList.remove("offcanvas-open");
+        document.body.style.overflow = "";
+        document.body.style.paddingRight = "";
       
-          setFormData({});
-          setFile(null);
-        }, 500); // ⏱️ fecha após 0.5s
+        // 🔹 Limpa estados do formulário e mensagem
+        setFormData({});
+        setFile(null);
       
-      }, 1500); // ⏱️ mensagem visível por 1.5s
-
+        // 🔹 Oculta a mensagem de sucesso depois de 0.5s
+        setTimeout(() => {
+          setMensagem(prev => ({ ...prev, texto: "" }));
+        }, 500);
+      
+        // 🔹 Atualiza tabela / lista após o fechamento
+        if (onCadastroSucesso) onCadastroSucesso();
+        if (onClose) onClose();
+      
+      }, 2000);
       
       return;
     }
