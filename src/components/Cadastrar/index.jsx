@@ -343,9 +343,10 @@ function CadastroForm({ titulo, endpoint, campos, onCadastroSucesso, initialData
         // ✅ Limpa estados
         setFormData({});
         setFile(null);
-      }, 2000);
+        setMensagem(prev => ({ ...prev, texto: "" }));
 
-    
+      }, 2000);
+      
       return;
     }
 
