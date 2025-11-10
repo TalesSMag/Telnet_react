@@ -295,14 +295,17 @@ function CadastroForm({ titulo, endpoint, campos, onCadastroSucesso, initialData
   try {
     // 🔹 1) Se houver arquivo, processa upload e ignora validações de campos
     if (file) {
+      console.log("📂 Entrou no bloco de upload de arquivo");
       const formDataFile = new FormData();
       formDataFile.append("file", file);
-    
+
+      console.log("📤 Enviando arquivo para upload...");
       const uploadRes = await fetch(`${API_URL}/api/material/upload`, {
         method: "POST",
         body: formDataFile,
       });
-    
+
+      console.log("📬 Resposta recebida do upload:", uploadRes.status);
       if (!uploadRes.ok) {
         const errText = await uploadRes.text();
         throw new Error(`Erro ao importar arquivo: ${errText}`);
@@ -315,8 +318,9 @@ function CadastroForm({ titulo, endpoint, campos, onCadastroSucesso, initialData
         tipo: "sucesso",
         texto: `Arquivo importado com sucesso! ${result.count || ""} materiais adicionados.`,
       });
-    
+
       // ✅ Fecha automaticamente o offcanvas e limpa após 2 segundos
+      console.log("🕒 Iniciando timeout de 2 segundos para fechar offcanvas...");
       setTimeout(() => {
         console.log("⏳ Tentando fechar offcanvas...");
       
