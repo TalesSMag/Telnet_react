@@ -291,7 +291,9 @@ function CadastroForm({ titulo, endpoint, campos, onCadastroSucesso, initialData
   
   const handleSubmit = async (e) => {
   e.preventDefault();
+  console.log("🎯 handleSubmit disparado");
   console.log("📁 Valor atual de file:", file);
+  console.log("📋 formData atual:", formData);
 
   try {
     // 🔹 1) Se houver arquivo, processa upload e ignora validações de campos
