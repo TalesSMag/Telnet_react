@@ -31,43 +31,71 @@ function CadastroForm({ titulo, endpoint, campos, onCadastroSucesso, initialData
   }, [initialData, editingId]);
 
   const handleFileUpload = async (file) => {
-  if (!file) return;
-
-  const formData = new FormData();
-  formData.append("file", file);
-
-  try {
-    setMensagem({ tipo: "info", texto: "📂 Enviando e processando arquivo, aguarde..." });
-
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/material/upload`, {
-      method: "POST",
-      body: formData,
-    });
-
-    const result = await response.json();
-
-    if (!response.ok) {
-      throw new Error(result.msg || "Erro ao processar o arquivo");
-    }
-
-    setMensagem({
-      tipo: "sucesso",
-      texto: `✅ ${result.msg} — ${result.count} registros (Inseridos: ${result.inseridos}, Atualizados: ${result.atualizados})`,
-    });
-
-    // 🔁 Atualiza a listagem após upload, se a função estiver disponível
-    if (typeof onCadastroSucesso === "function") {
-      onCadastroSucesso();
-    }
-
+    if (!file) return;
+  
+    const formData = new FormData();
+    formData.append("file", file);
+  
+    try {
+      setMensagem({
+        tipo: "info",
+        texto: "📂 Enviando e processando arquivo, aguarde...",
+      });
+  
+      console.log("📤 Iniciando upload automático...");
+      const response = await fetch(`${API_URL}/api/material/upload`, {
+        method: "POST",
+        body: formData,
+      });
+  
+      const result = await response.json();
+      console.log("✅ Upload finalizado:", result);
+  
+      if (!response.ok) {
+        throw new Error(result.msg || "Erro ao processar o arquivo");
+      }
+  
+      setMensagem({
+        tipo: "sucesso",
+        texto: `✅ ${result.msg} — ${result.count} registros (Inseridos: ${result.inseridos}, Atualizados: ${result.atualizados})`,
+      });
+  
+      // 🔁 Atualiza listagem automaticamente, se callback existir
+      if (typeof onCadastroSucesso === "function") {
+        onCadastroSucesso();
+      }
+  
+      // ⏳ Fecha automaticamente o offcanvas após 2s
+      setTimeout(() => {
+        console.log("⏳ Fechando offcanvas após upload...");
+  
+        const offcanvasElement = document.querySelector(".offcanvas.show");
+        if (offcanvasElement) {
+          const bsOffcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement);
+          if (bsOffcanvas) bsOffcanvas.hide();
+        }
+  
+        const backdrop = document.querySelector(".offcanvas-backdrop");
+        if (backdrop) backdrop.remove();
+  
+        document.body.classList.remove("offcanvas-open");
+        document.body.style.overflow = "";
+        document.body.style.paddingRight = "";
+  
+        setMensagem({ tipo: "", texto: "" });
+        setFile(null);
+        setFormData({});
+        if (onClose) onClose();
+      }, 2000);
     } catch (error) {
-      console.error("Erro no upload:", error);
+      console.error("❌ Erro no upload automático:", error);
       setMensagem({
         tipo: "erro",
         texto: "❌ Falha ao enviar o arquivo: " + error.message,
       });
     }
   };
+
 
   const handleChange = async (nome, valor, e) => {
   if (e?.target?.type === "file") {
@@ -350,7 +378,7 @@ function CadastroForm({ titulo, endpoint, campos, onCadastroSucesso, initialData
         setFormData({});
         if (onCadastroSucesso) onCadastroSucesso();
         if (onClose) onClose();
-      }, 2000);
+      }, 1000);
     
       return;
     }
@@ -850,7 +878,12 @@ function CadastroForm({ titulo, endpoint, campos, onCadastroSucesso, initialData
                 accept={extra.accept}
                 onChange={(e) => {
                   if (extra.tipo === "file") {
-                    handleChange(extra.nome, e.target.files?.[0], e);
+                    const arquivoSelecionado = e.target.files?.[0];
+                    if (arquivoSelecionado) {
+                      console.log("📄 Arquivo selecionado:", arquivoSelecionado.name);
+                      setFile(arquivoSelecionado);
+                      handleFileUpload(arquivoSelecionado); // 🚀 upload automático
+                    }
                   } else {
                     handleChange(extra.nome, e.target.value, e);
                   }
