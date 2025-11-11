@@ -303,6 +303,7 @@ function CadastroForm({ titulo, endpoint, campos, onCadastroSucesso, initialData
       formDataFile.append("file", file);
 
       console.log("📤 Enviando arquivo para upload...");
+      console.log("📂 Arquivo selecionado:", e.target.files[0]);
       const uploadRes = await fetch(`${API_URL}/api/material/upload`, {
         method: "POST",
         body: formDataFile,
