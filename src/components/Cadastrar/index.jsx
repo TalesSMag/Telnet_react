@@ -33,8 +33,8 @@ function CadastroForm({ titulo, endpoint, campos, onCadastroSucesso, initialData
   const handleFileUpload = async (file) => {
     if (!file) return;
   
-    const formData = new FormData();
-    formData.append("file", file);
+    const formDataFile = new FormData(); // ✅ renomeado para não confundir
+    formDataFile.append("file", file);
   
     try {
       setMensagem({
@@ -45,7 +45,7 @@ function CadastroForm({ titulo, endpoint, campos, onCadastroSucesso, initialData
       console.log("📤 Iniciando upload automático...");
       const response = await fetch(`${API_URL}/api/material/upload`, {
         method: "POST",
-        body: formData,
+        body: formDataFile,
       });
   
       const result = await response.json();
@@ -55,9 +55,31 @@ function CadastroForm({ titulo, endpoint, campos, onCadastroSucesso, initialData
         throw new Error(result.msg || "Erro ao processar o arquivo");
       }
   
+      // ✅ Pega os materiais existentes do estado atual
+      const materiaisExistentes = formData?.materiais || [];
+  
+      // 🔹 Filtra apenas os materiais que ainda não existem
+      const novosMateriais = result.filter((novo) =>
+        !materiaisExistentes.some(
+          (existente) =>
+            existente.descricao.trim().toLowerCase() ===
+            novo.descricao.trim().toLowerCase()
+        )
+      );
+  
+      if (novosMateriais.length < result.length) {
+        console.log("⚠️ Alguns materiais foram ignorados por já existirem.");
+      }
+  
+      // 🔹 Atualiza apenas com os novos
+      setFormData((prev) => ({
+        ...prev,
+        materiais: [...(prev.materiais || []), ...novosMateriais],
+      }));
+  
       setMensagem({
         tipo: "sucesso",
-        texto: `✅ ${result.msg} — ${result.count} registros (Inseridos: ${result.inseridos}, Atualizados: ${result.atualizados})`,
+        texto: `✅ Importação concluída! ${novosMateriais.length} novos materiais adicionados.`,
       });
   
       // 🔁 Atualiza listagem automaticamente, se callback existir
@@ -72,7 +94,7 @@ function CadastroForm({ titulo, endpoint, campos, onCadastroSucesso, initialData
         const offcanvasElement = document.querySelector(".offcanvas.show");
         if (offcanvasElement) {
           const bsOffcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement);
-          if (bsOffcanvas) bsOffcanvas.hide();
+          bsOffcanvas?.hide();
         }
   
         const backdrop = document.querySelector(".offcanvas-backdrop");
@@ -95,7 +117,6 @@ function CadastroForm({ titulo, endpoint, campos, onCadastroSucesso, initialData
       });
     }
   };
-
 
   const handleChange = async (nome, valor, e) => {
   if (e?.target?.type === "file") {
