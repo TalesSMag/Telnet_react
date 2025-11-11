@@ -303,74 +303,32 @@ function CadastroForm({ titulo, endpoint, campos, onCadastroSucesso, initialData
       formDataFile.append("file", file);
 
       console.log("📤 Enviando arquivo para upload...");
-      console.log("📂 Arquivo selecionado:", e.target.files[0]);
       const uploadRes = await fetch(`${API_URL}/api/material/upload`, {
         method: "POST",
         body: formDataFile,
       });
 
-      console.log("📬 Resposta recebida do upload:", uploadRes.status);
       if (!uploadRes.ok) {
-        const errText = await uploadRes.text();
-        throw new Error(`Erro ao importar arquivo: ${errText}`);
+        throw new Error("Falha no upload do arquivo");
       }
-    
-      const result = await uploadRes.json();
-      console.log("✅ Materiais importados com sucesso:", result);
-    
-      setMensagem({
-        tipo: "sucesso",
-        texto: `Arquivo importado com sucesso! ${result.count || ""} materiais adicionados.`,
-      });
 
-      // ✅ Fecha automaticamente o offcanvas e limpa após 2 segundos
-      console.log("🕒 Iniciando timeout de 2 segundos para fechar offcanvas...");
-      setTimeout(() => {
-        console.log("⏳ Tentando fechar offcanvas...");
-      
-        const offcanvasElement = document.getElementById("cadastroOffcanvas");
-        if (offcanvasElement) {
-          let offcanvasInstance = window.bootstrap?.Offcanvas?.getInstance(offcanvasElement);
-      
-          if (!offcanvasInstance) {
-            console.log("⚠️ Nenhuma instância ativa, criando nova...");
-            offcanvasInstance = new window.bootstrap.Offcanvas(offcanvasElement);
-          }
-      
-          offcanvasInstance.hide();
-          console.log("✅ Offcanvas fechado com sucesso!");
-        } else {
-          console.log("❌ Elemento #cadastroOffcanvas não encontrado.");
-        }
-      
-        // 🔹 Remove backdrop manualmente
-        const backdrop = document.querySelector(".offcanvas-backdrop");
-        if (backdrop) {
-          backdrop.remove();
-          console.log("🧹 Backdrop removido manualmente.");
-        }
-      
-        // 🔹 Restaura o body
-        document.body.classList.remove("offcanvas-open");
-        document.body.style.overflow = "";
-        document.body.style.paddingRight = "";
-      
-        // 🔹 Atualiza a lista e fecha o estado
-        if (onCadastroSucesso) onCadastroSucesso();
-        if (onClose) onClose();
-      
-        // 🔹 Limpa campos e mensagem após o fechamento
-        setTimeout(() => {
-          setMensagem({ texto: "", tipo: "" });
-          setFormData({});
-          setFile(null);
-          console.log("🧼 Estados limpos e mensagem removida.");
-        }, 500);
-      }, 2000);
-      
+      console.log("✅ Upload concluído com sucesso!");
+      setFile(null);
+
+      // 🔹 Fecha o offcanvas automaticamente após upload
+      const offcanvasElement = document.querySelector(".offcanvas.show");
+      if (offcanvasElement) {
+        const bsOffcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement);
+        bsOffcanvas?.hide();
+      }
+
+      // 🔹 Mostra mensagem temporária
+      setMensagem("Arquivo enviado com sucesso!");
+      setTimeout(() => setMensagem(""), 3000);
+
       return;
     }
-
+    
     // 🔹 2) Validação dos campos obrigatórios (somente se não houver upload)
     for (let campo of campos) {
       if (campo.required && !formData[campo.nome]) {
