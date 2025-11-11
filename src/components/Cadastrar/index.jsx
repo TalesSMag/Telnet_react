@@ -301,33 +301,60 @@ function CadastroForm({ titulo, endpoint, campos, onCadastroSucesso, initialData
       console.log("📂 Entrou no bloco de upload de arquivo");
       const formDataFile = new FormData();
       formDataFile.append("file", file);
-
+    
       console.log("📤 Enviando arquivo para upload...");
       const uploadRes = await fetch(`${API_URL}/api/material/upload`, {
         method: "POST",
         body: formDataFile,
       });
-
+    
       if (!uploadRes.ok) {
         throw new Error("Falha no upload do arquivo");
       }
-
-      console.log("✅ Upload concluído com sucesso!");
-      setFile(null);
-
-      // 🔹 Fecha o offcanvas automaticamente após upload
-      const offcanvasElement = document.querySelector(".offcanvas.show");
-      if (offcanvasElement) {
-        const bsOffcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement);
-        bsOffcanvas?.hide();
-      }
-
-      // 🔹 Mostra mensagem temporária
-      setMensagem("Arquivo enviado com sucesso!");
-      setTimeout(() => setMensagem(""), 3000);
-
+    
+      const result = await uploadRes.json();
+      console.log("✅ Upload concluído com sucesso:", result);
+    
+      setMensagem({
+        tipo: "sucesso",
+        texto: `Arquivo importado com sucesso! ${result.count || ""} materiais adicionados.`,
+      });
+    
+      // ✅ Aguarda 2 segundos antes de fechar automaticamente
+      setTimeout(() => {
+        console.log("⏳ Fechando offcanvas automaticamente...");
+    
+        const offcanvasElement = document.querySelector(".offcanvas.show");
+        if (offcanvasElement) {
+          const bsOffcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement);
+          if (bsOffcanvas) {
+            bsOffcanvas.hide();
+            console.log("✅ Offcanvas fechado!");
+          }
+        }
+    
+        // 🔹 Remove backdrop manualmente
+        const backdrop = document.querySelector(".offcanvas-backdrop");
+        if (backdrop) {
+          backdrop.remove();
+          console.log("🧹 Backdrop removido.");
+        }
+    
+        // 🔹 Restaura body e limpa estados
+        document.body.classList.remove("offcanvas-open");
+        document.body.style.overflow = "";
+        document.body.style.paddingRight = "";
+    
+        setMensagem({ tipo: "", texto: "" });
+        setFile(null);
+        setFormData({});
+        if (onCadastroSucesso) onCadastroSucesso();
+        if (onClose) onClose();
+      }, 2000);
+    
       return;
     }
+
     
     // 🔹 2) Validação dos campos obrigatórios (somente se não houver upload)
     for (let campo of campos) {
