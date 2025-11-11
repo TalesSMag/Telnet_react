@@ -861,9 +861,15 @@ function CadastroForm({ titulo, endpoint, campos, onCadastroSucesso, initialData
               <label>{extra.label}</label>
               <input
                 type={extra.tipo}
-                name={extra.nome || `extra-${idx}`}
+                name={extra.nome}
                 accept={extra.accept}
-                onChange={(e) => handleChange(extra.nome, e.target.files?.[0], e)}
+                onChange={(e) => {
+                  if (extra.tipo === "file") {
+                    handleChange(extra.nome, e.target.files?.[0], e);
+                  } else {
+                    handleChange(extra.nome, e.target.value, e);
+                  }
+                }}
               />
             </div>
           ))}
