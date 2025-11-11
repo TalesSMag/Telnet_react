@@ -58,14 +58,17 @@ function CadastroForm({ titulo, endpoint, campos, onCadastroSucesso, initialData
       // ✅ Pega os materiais existentes do estado atual
       const materiaisExistentes = formData?.materiais || [];
   
-      // 🔹 Filtra apenas os materiais que ainda não existem
-      const novosMateriais = result.filter((novo) =>
+      const listaMateriais =
+        Array.isArray(result) ? result : result.materiais || [];
+      
+      const novosMateriais = listaMateriais.filter((novo) =>
         !materiaisExistentes.some(
           (existente) =>
             existente.descricao.trim().toLowerCase() ===
             novo.descricao.trim().toLowerCase()
         )
       );
+
   
       if (novosMateriais.length < result.length) {
         console.log("⚠️ Alguns materiais foram ignorados por já existirem.");
