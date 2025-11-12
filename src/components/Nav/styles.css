@@ -1,52 +1,112 @@
 #home-container {
-    height: 100vh;
-  }
-  /* Centraliza o ícone dentro do input-group */
-  .input-group-text {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  /* Sidebar fixa e altura total */
-  .sidebar {
-    width: 220px;
-    min-height: calc(100vh - 56px); /* altura da navbar */
-  }
-  
-  .sidebar .nav-link {
-    transition: all 0.3s ease; /* transição suave para todas as propriedades */
-  }
-  
-  .sidebar .nav-link:hover {
-    background-color: #495057; /* muda o fundo levemente */
-    padding-left: 1.5rem;      /* desloca levemente para a direita */
-    border-radius: 5px;         /* cantos arredondados */
-    color: #ffffff;             /* mantém o texto branco */
-  }
-  /* Navbar superior */
-  .navbar {
-    background-color: #ffffff !important; /* cor azul */
-    border-bottom: 3px solid #212529;
-    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.06);
-  }
+  height: 100vh;
+}
 
-  .logout-btn {
-    border-radius: 8px;
-    font-weight: 600;
-    border: 3px solid #212529; /* contorno vermelho */
-    background-color: transparent;
-    color: #212529;
-    transition: all 0.2s ease;
-    margin: 15px;
-    height: 40px;
-    width: 130px;
-  }
-  
-  .logout-btn:hover {
-    background-color: #212529; /* fundo vermelho ao passar o mouse */
-    color: #fff; /* texto branco */
-    cursor: pointer;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-  }
+/* Centraliza o ícone dentro do input-group */
+.input-group-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
+/* Sidebar fixa (desktop) */
+.sidebar {
+  width: 220px;
+  min-height: calc(100vh - 56px); /* altura da navbar */
+}
+
+/* Links da sidebar (desktop) */
+.sidebar .nav-link {
+  transition: all 0.3s ease;
+}
+
+.sidebar .nav-link:hover {
+  background-color: #495057;
+  padding-left: 1.5rem;
+  border-radius: 5px;
+  color: #ffffff;
+}
+
+/* Navbar superior */
+.navbar {
+  background-color: #ffffff !important;
+  border-bottom: 3px solid #212529;
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.06);
+}
+
+/* Botão de logout */
+.logout-btn {
+  border-radius: 8px;
+  font-weight: 600;
+  border: 3px solid #212529;
+  background-color: transparent;
+  color: #212529;
+  transition: all 0.2s ease;
+  margin: 15px;
+  height: 40px;
+  width: 130px;
+}
+
+.logout-btn:hover {
+  background-color: #212529;
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+/* =====================================================
+   🌙 SIDEBAR MOBILE (OFFCANVAS)
+   ===================================================== */
+
+/* Fundo da sidebar mobile */
+.offcanvas.bg-dark {
+  background-color: #212529 !important;
+}
+
+/* Estilo dos botões dentro do menu mobile */
+.offcanvas-body .nav-link {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+}
+
+/* Mesmo efeito de hover da sidebar desktop */
+.offcanvas-body .nav-link:hover {
+  background-color: #495057;
+  padding-left: 1.5rem;
+  color: #ffffff;
+  box-shadow: inset 2px 0 0 #6c757d;
+}
+
+/* ✨ Efeito de toque (mobile: focus e active) */
+.offcanvas-body .nav-link:focus,
+.offcanvas-body .nav-link:active {
+  background-color: #6c757d !important;
+  color: #ffffff !important;
+  transform: scale(0.98);
+  box-shadow: inset 2px 0 0 #adb5bd;
+  outline: none;
+}
+
+/* Transição de abertura mais suave */
+.offcanvas.show {
+  transition: transform 0.35s ease-in-out;
+}
+
+/* Cabeçalho do menu mobile */
+.offcanvas-header {
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+
+.offcanvas-title {
+  color: #fff;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
