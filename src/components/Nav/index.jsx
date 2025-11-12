@@ -122,7 +122,7 @@ function Nav({ onLogout, usuario = {}, children }) {
 
           <div className="offcanvas-body">
             <ul className="nav flex-column">
-              <li className="nav-item mb-2">
+              <li className="nav-item mb-2 ml-2">
                 <button
                   className="nav-link text-white btn btn-link text-start p-0"
                   onClick={() => handleNavigate("/servico")}
@@ -130,7 +130,7 @@ function Nav({ onLogout, usuario = {}, children }) {
                   Serviços
                 </button>
               </li>
-              <li className="nav-item mb-2">
+              <li className="nav-item mb-2 ml-2">
                 <button
                   className="nav-link text-white btn btn-link text-start p-0"
                   onClick={() => handleNavigate("/materiais")}
@@ -138,7 +138,7 @@ function Nav({ onLogout, usuario = {}, children }) {
                   Materiais
                 </button>
               </li>
-              <li className="nav-item mb-2">
+              <li className="nav-item mb-2 ml-2">
                 <button
                   className="nav-link text-white btn btn-link text-start p-0"
                   onClick={() => handleNavigate("/clientes")}
@@ -146,7 +146,7 @@ function Nav({ onLogout, usuario = {}, children }) {
                   Clientes
                 </button>
               </li>
-              <li className="nav-item mb-2">
+              <li className="nav-item mb-2 ml-2">
                 <button
                   className="nav-link text-white btn btn-link text-start p-0"
                   onClick={() => handleNavigate("/tecnicos")}
