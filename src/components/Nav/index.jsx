@@ -2,33 +2,30 @@ import React, { useEffect, useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles.css';
 import { FaUserCircle } from 'react-icons/fa';
-import logo from '../../assets/Telnet(logo).png'; // Ajuste o caminho do logo conforme seu projeto
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import logo from '../../assets/Telnet(logo).png';
+import { Link, useNavigate } from "react-router-dom";
 import Search from "../Search";
 
 function Nav({ onLogout, usuario = {}, children }) {
-
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  //const [materiaisPendentes, setMateriaisPendentes] = useState(0);
+  const navigate = useNavigate();
 
-  /*
-  const carregarPendentes = async () => {
-    try {
-      const res = await fetch("http://localhost:3003/api/material/incompletos");
-      const data = await res.json();
-      setMateriaisPendentes(data.length);
-    } catch (error) {
-      console.error("Erro ao carregar materiais incompletos:", error);
+  // 🔹 Fecha o offcanvas com atraso suave antes de navegar
+  const handleNavigate = (path) => {
+    const offcanvasElement = document.querySelector(".offcanvas.show");
+    if (offcanvasElement) {
+      const bsOffcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement);
+      if (bsOffcanvas) bsOffcanvas.hide();
+
+      // Aguarda o tempo da animação de fechamento (300ms)
+      setTimeout(() => {
+        navigate(path);
+      }, 300);
+    } else {
+      navigate(path);
     }
   };
 
-  useEffect(() => {
-    carregarPendentes();
-    window.addEventListener("materiaisIncompletosAtualizados", carregarPendentes);
-    return () => window.removeEventListener("materiaisIncompletosAtualizados", carregarPendentes);
-  }, []);
-  */
   return (
     <div id="home-container" className="d-flex flex-column vh-100">
       {/* Navbar superior */}
@@ -39,7 +36,13 @@ function Nav({ onLogout, usuario = {}, children }) {
         </Link>
 
         {/* Botão toggle da sidebar apenas em telas pequenas */}
-        <button className="btn d-lg-none me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarOffcanvas" aria-controls="sidebarOffcanvas">
+        <button
+          className="btn d-lg-none me-2"
+          type="button"
+          data-bs-toggle="offcanvas"
+          data-bs-target="#sidebarOffcanvas"
+          aria-controls="sidebarOffcanvas"
+        >
           ☰
         </button>
 
@@ -103,24 +106,53 @@ function Nav({ onLogout, usuario = {}, children }) {
         </div>
 
         {/* Sidebar Offcanvas para telas pequenas */}
-        <div className="offcanvas offcanvas-start bg-dark text-white" tabIndex="-1" id="sidebarOffcanvas">
+        <div
+          className="offcanvas offcanvas-start bg-dark text-white"
+          tabIndex="-1"
+          id="sidebarOffcanvas"
+        >
           <div className="offcanvas-header">
             <h5 className="offcanvas-title">Menu</h5>
-            <button type="button" className="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+            <button
+              type="button"
+              className="btn-close btn-close-white"
+              data-bs-dismiss="offcanvas"
+            ></button>
           </div>
+
           <div className="offcanvas-body">
             <ul className="nav flex-column">
               <li className="nav-item mb-2">
-                <a className="nav-link text-white" href="#">Serviços</a>
+                <button
+                  className="nav-link text-white btn btn-link text-start p-0"
+                  onClick={() => handleNavigate("/servico")}
+                >
+                  Serviços
+                </button>
               </li>
               <li className="nav-item mb-2">
-                <a className="nav-link text-white" href="#">Materiais</a>
+                <button
+                  className="nav-link text-white btn btn-link text-start p-0"
+                  onClick={() => handleNavigate("/materiais")}
+                >
+                  Materiais
+                </button>
               </li>
               <li className="nav-item mb-2">
-                <a className="nav-link text-white" href="#">Clientes</a>
+                <button
+                  className="nav-link text-white btn btn-link text-start p-0"
+                  onClick={() => handleNavigate("/clientes")}
+                >
+                  Clientes
+                </button>
               </li>
               <li className="nav-item mb-2">
-                <a className="nav-link text-white" href="#">Técnicos</a>
+                <button
+                  className="nav-link text-white btn btn-link text-start p-0"
+                  onClick={() => handleNavigate("/tecnicos")}
+                >
+                  Técnicos
+                </button>
               </li>
             </ul>
           </div>
