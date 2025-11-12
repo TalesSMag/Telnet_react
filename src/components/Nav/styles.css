@@ -13,17 +13,21 @@
 .sidebar {
   width: 220px;
   min-height: calc(100vh - 56px); /* altura da navbar */
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 }
 
 /* Links da sidebar (desktop) */
 .sidebar .nav-link {
   transition: all 0.3s ease;
+  padding: 0.6rem 1.2rem;
+  margin: 0.2rem 0;
+  border-radius: 5px;
 }
 
 .sidebar .nav-link:hover {
   background-color: #495057;
   padding-left: 1.5rem;
-  border-radius: 5px;
   color: #ffffff;
 }
 
@@ -55,7 +59,7 @@
 }
 
 /* =====================================================
-   🌙 SIDEBAR MOBILE (OFFCANVAS)
+   📱 SIDEBAR MOBILE (OFFCANVAS)
    ===================================================== */
 
 /* Fundo da sidebar mobile */
@@ -63,7 +67,15 @@
   background-color: #212529 !important;
 }
 
-/* Estilo dos botões dentro do menu mobile */
+/* Corpo do menu mobile com espaçamento uniforme */
+.offcanvas-body {
+  padding: 1rem 1rem 2rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+/* Links no mobile */
 .offcanvas-body .nav-link {
   display: block;
   width: 100%;
@@ -73,11 +85,12 @@
   color: #ffffff;
   font-size: 1rem;
   transition: all 0.3s ease;
-  padding: 0.5rem 1rem;
+  padding: 0.6rem 1.2rem;
+  margin: 0.2rem 0;
   border-radius: 5px;
 }
 
-/* Mesmo efeito de hover da sidebar desktop */
+/* Efeito hover igual ao desktop */
 .offcanvas-body .nav-link:hover {
   background-color: #495057;
   padding-left: 1.5rem;
@@ -95,7 +108,7 @@
   outline: none;
 }
 
-/* Transição de abertura mais suave */
+/* Transição de abertura suave */
 .offcanvas.show {
   transition: transform 0.35s ease-in-out;
 }
@@ -103,6 +116,7 @@
 /* Cabeçalho do menu mobile */
 .offcanvas-header {
   border-bottom: 1px solid rgba(255,255,255,0.2);
+  padding: 1rem;
 }
 
 .offcanvas-title {
