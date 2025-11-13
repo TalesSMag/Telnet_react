@@ -8,34 +8,16 @@ import Search from "../Search";
 
 function Nav({ onLogout, usuario = {}, children }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const navigate = useNavigate();
-
-  // 🔹 Fecha o offcanvas com atraso suave antes de navegar
-  const handleNavigate = (path) => {
-    const offcanvasElement = document.querySelector(".offcanvas.show");
-    if (offcanvasElement) {
-      const bsOffcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement);
-      if (bsOffcanvas) bsOffcanvas.hide();
-
-      // Aguarda o tempo da animação de fechamento (300ms)
-      setTimeout(() => {
-        navigate(path);
-      }, 300);
-    } else {
-      navigate(path);
-    }
-  };
 
   return (
     <div id="home-container" className="d-flex flex-column vh-100">
       {/* Navbar superior */}
       <nav className="navbar px-4 w-100">
-        {/* Logo como botão que leva para a Home */}
         <Link to="/" className="navbar-brand d-flex align-items-center">
           <img src={logo} alt="Logo" width="120" height="80" className="ms-5 me-5" />
         </Link>
 
-        {/* Botão toggle da sidebar apenas em telas pequenas */}
+        {/* Botão toggle da sidebar (mobile) */}
         <button
           className="btn d-lg-none me-2"
           type="button"
@@ -60,7 +42,7 @@ function Nav({ onLogout, usuario = {}, children }) {
             onClick={() => setDropdownOpen(!dropdownOpen)}
           />
 
-          {/* Dropdown */}
+          {/* Dropdown do usuário */}
           {dropdownOpen && (
             <div
               className="dropdown-menu dropdown-menu-end show"
@@ -80,10 +62,10 @@ function Nav({ onLogout, usuario = {}, children }) {
         </div>
       </nav>
 
-      {/* Área abaixo da navbar */}
+      {/* Corpo da página */}
       <div className="d-flex flex-grow-1">
-        {/* Sidebar fixa em telas grandes */}
-        <nav className="bg-dark text-white sidebar p-3 d-none d-lg-block" style={{ width: "200px" }}>
+        {/* Sidebar fixa (desktop) */}
+        <nav className="bg-dark text-white sidebar p-3 d-none d-lg-block">
           <ul className="nav flex-column">
             <li className="nav-item mb-2">
               <Link className="nav-link text-white" to="/servico">Serviços</Link>
@@ -100,59 +82,58 @@ function Nav({ onLogout, usuario = {}, children }) {
           </ul>
         </nav>
 
-        {/* === Conteúdo da página === */}
+        {/* Conteúdo principal */}
         <div className="flex-grow-1 p-4" style={{ background: "#f8f9fa" }}>
           {children}
         </div>
 
-        {/* Sidebar Offcanvas para telas pequenas */}
+        {/* Sidebar Offcanvas (mobile) */}
         <div
           className="offcanvas offcanvas-start bg-dark text-white"
           tabIndex="-1"
           id="sidebarOffcanvas"
         >
-          <div className="offcanvas-header">
+          <div className="offcanvas-header border-bottom border-secondary">
             <h5 className="offcanvas-title">Menu</h5>
-            <button
-              type="button"
-              className="btn-close btn-close-white"
-              data-bs-dismiss="offcanvas"
-            ></button>
+            <button type="button" className="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
           </div>
-
-          <div className="offcanvas-body">
+          <div className="offcanvas-body px-3">
             <ul className="nav flex-column">
-              <li className="nav-item mb-2 ml-2">
-                <button
-                  className="nav-link text-white btn btn-link text-start p-0"
-                  onClick={() => handleNavigate("/servico")}
+              <li className="nav-item mb-2">
+                <Link
+                  to="/servico"
+                  className="nav-link text-white"
+                  data-bs-dismiss="offcanvas"
                 >
                   Serviços
-                </button>
+                </Link>
               </li>
-              <li className="nav-item mb-2 ml-2">
-                <button
-                  className="nav-link text-white btn btn-link text-start p-0"
-                  onClick={() => handleNavigate("/materiais")}
+              <li className="nav-item mb-2">
+                <Link
+                  to="/materiais"
+                  className="nav-link text-white"
+                  data-bs-dismiss="offcanvas"
                 >
                   Materiais
-                </button>
+                </Link>
               </li>
-              <li className="nav-item mb-2 ml-2">
-                <button
-                  className="nav-link text-white btn btn-link text-start p-0"
-                  onClick={() => handleNavigate("/clientes")}
+              <li className="nav-item mb-2">
+                <Link
+                  to="/clientes"
+                  className="nav-link text-white"
+                  data-bs-dismiss="offcanvas"
                 >
                   Clientes
-                </button>
+                </Link>
               </li>
-              <li className="nav-item mb-2 ml-2">
-                <button
-                  className="nav-link text-white btn btn-link text-start p-0"
-                  onClick={() => handleNavigate("/tecnicos")}
+              <li className="nav-item mb-2">
+                <Link
+                  to="/tecnicos"
+                  className="nav-link text-white"
+                  data-bs-dismiss="offcanvas"
                 >
                   Técnicos
-                </button>
+                </Link>
               </li>
             </ul>
           </div>
