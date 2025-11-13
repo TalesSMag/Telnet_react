@@ -17,21 +17,31 @@
    ===================================================== */
 .sidebar {
   width: 220px;
-  min-height: calc(100vh - 56px); /* altura da navbar */
+  min-height: calc(100vh - 56px);
+  background-color: #212529;
 }
 
 .sidebar .nav-link {
   display: block;
   color: #ffffff;
   padding: 0.6rem 1rem 0.6rem 1.2rem;
-  margin: 0.2rem 0;
-  border-radius: 5px;
+  margin: 0.3rem 0;
+  border-radius: 6px;
   transition: all 0.3s ease;
+  position: relative;
 }
 
-.sidebar .nav-link:hover {
+.sidebar .nav-link:hover,
+.sidebar .nav-link:focus {
   background-color: #495057;
-  padding-left: 1.6rem; /* movimento suave para a direita */
+  padding-left: 1.6rem;
+  color: #ffffff;
+  box-shadow: inset 3px 0 0 #ffffff33;
+}
+
+.sidebar .nav-link.active {
+  background-color: #343a40;
+  box-shadow: inset 3px 0 0 #0d6efd;
   color: #ffffff;
 }
 
@@ -68,15 +78,12 @@
 }
 
 /* =====================================================
-   📱 SIDEBAR MOBILE (OFFCANVAS)
+   📱 OFFCANVAS (MENU MOBILE)
    ===================================================== */
-
-/* Fundo do offcanvas */
 .offcanvas.bg-dark {
   background-color: #212529 !important;
 }
 
-/* Cabeçalho */
 .offcanvas-header {
   border-bottom: 1px solid rgba(255,255,255,0.2);
   padding: 1rem 1.5rem;
@@ -88,34 +95,40 @@
   letter-spacing: 0.5px;
 }
 
-/* Corpo */
 .offcanvas-body {
-  padding: 1rem 1rem 2rem 1.5rem;
+  padding: 1rem 1.5rem 2rem 1.5rem;
 }
 
-/* Links dentro do offcanvas */
+/* Replicando exatamente o estilo dos links da sidebar */
 .offcanvas-body .nav-link {
   display: block;
   color: #ffffff;
   font-size: 1rem;
-  padding: 0.6rem 1rem 0.6rem 1.2rem; /* igual ao desktop */
+  padding: 0.6rem 1rem 0.6rem 1.2rem;
   margin: 0.3rem 0;
-  border-radius: 5px;
+  border-radius: 6px;
   transition: all 0.3s ease;
   position: relative;
 }
 
-/* Hover com movimento suave */
-.offcanvas-body .nav-link:hover {
+.offcanvas-body .nav-link:hover,
+.offcanvas-body .nav-link:focus {
   background-color: #495057;
-  padding-left: 1.6rem; /* movimento idêntico ao desktop */
+  padding-left: 1.6rem;
+  color: #ffffff;
+  box-shadow: inset 3px 0 0 #ffffff33;
+}
+
+/* Efeito ativo (para página atual) */
+.offcanvas-body .nav-link.active {
+  background-color: #343a40;
+  box-shadow: inset 3px 0 0 #0d6efd;
   color: #ffffff;
 }
 
-/* Efeito de toque (mobile) */
+/* Efeito de toque no mobile */
 .offcanvas-body .nav-link:active {
   background-color: #6c757d !important;
-  color: #ffffff !important;
   transform: scale(0.98);
 }
 
@@ -123,24 +136,21 @@
    🧩 AJUSTES RESPONSIVOS
    ===================================================== */
 @media (max-width: 992px) {
-  /* Navbar mais compacta */
   .navbar {
     padding: 0.5rem 1rem;
   }
 
-  /* Ícone ☰ mais visível */
   .navbar .btn {
     font-size: 1.5rem;
     color: #212529;
   }
 
-  /* Melhora legibilidade e espaçamento dos links */
+  /* Mantém espaçamento e transição suaves no offcanvas */
   .offcanvas-body .nav-link {
-    font-size: 1.05rem;
-    padding-left: 1.4rem; /* ligeiro ajuste no mobile */
+    padding-left: 1.4rem;
   }
 
   .offcanvas-body .nav-link:hover {
-    padding-left: 1.8rem; /* movimento visível e suave */
+    padding-left: 1.8rem;
   }
 }
