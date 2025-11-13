@@ -1,3 +1,6 @@
+/* =====================================================
+   🧱 LAYOUT GERAL
+   ===================================================== */
 #home-container {
   height: 100vh;
 }
@@ -9,32 +12,41 @@
   justify-content: center;
 }
 
-/* Sidebar fixa (desktop) */
+/* =====================================================
+   🧭 SIDEBAR FIXA (DESKTOP)
+   ===================================================== */
 .sidebar {
   width: 220px;
   min-height: calc(100vh - 56px); /* altura da navbar */
 }
 
-/* Links da sidebar (desktop) */
 .sidebar .nav-link {
-  transition: all 0.3s ease;
+  transition: all 0.3s ease; /* transição suave para todas as propriedades */
+  padding: 0.6rem 1rem;
+  margin: 0.2rem 0;
+  border-radius: 5px;
 }
 
 .sidebar .nav-link:hover {
-  background-color: #495057;
-  padding-left: 1.5rem;
+  background-color: #495057; /* muda o fundo levemente */
+  padding-left: 1.5rem;      /* desloca levemente para a direita */
   border-radius: 5px;
-  color: #ffffff;
+  color: #ffffff;             /* mantém o texto branco */
 }
 
-/* Navbar superior */
+/* =====================================================
+   🧢 NAVBAR SUPERIOR
+   ===================================================== */
 .navbar {
   background-color: #ffffff !important;
   border-bottom: 3px solid #212529;
-  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.06);
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1),
+              0 2px 4px -2px rgba(0,0,0,0.06);
 }
 
-/* Botão de logout */
+/* =====================================================
+   🚪 BOTÃO DE LOGOUT
+   ===================================================== */
 .logout-btn {
   border-radius: 8px;
   font-weight: 600;
@@ -55,7 +67,7 @@
 }
 
 /* =====================================================
-   🌙 SIDEBAR MOBILE (OFFCANVAS)
+   📱 SIDEBAR MOBILE (OFFCANVAS)
    ===================================================== */
 
 /* Fundo da sidebar mobile */
@@ -63,7 +75,27 @@
   background-color: #212529 !important;
 }
 
-/* Estilo dos botões dentro do menu mobile */
+/* Cabeçalho do menu mobile */
+.offcanvas-header {
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+  padding: 1rem 1.5rem; /* mantém alinhamento com o corpo */
+}
+
+.offcanvas-title {
+  color: #fff;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* Corpo do menu mobile */
+.offcanvas-body {
+  padding: 1rem 1rem 2rem 1.5rem; /* adiciona recuo à esquerda */
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+/* Links no mobile */
 .offcanvas-body .nav-link {
   display: block;
   width: 100%;
@@ -73,11 +105,13 @@
   color: #ffffff;
   font-size: 1rem;
   transition: all 0.3s ease;
-  padding: 0.5rem 1rem;
+  padding: 0.6rem 1.2rem;
+  margin: 0.2rem 0;
   border-radius: 5px;
+  margin-left: 0.5rem; /* 👈 adiciona leve margem à esquerda */
 }
 
-/* Mesmo efeito de hover da sidebar desktop */
+/* Hover igual ao desktop */
 .offcanvas-body .nav-link:hover {
   background-color: #495057;
   padding-left: 1.5rem;
@@ -85,7 +119,7 @@
   box-shadow: inset 2px 0 0 #6c757d;
 }
 
-/* ✨ Efeito de toque (mobile: focus e active) */
+/* Efeito de toque (mobile) */
 .offcanvas-body .nav-link:focus,
 .offcanvas-body .nav-link:active {
   background-color: #6c757d !important;
@@ -95,18 +129,23 @@
   outline: none;
 }
 
-/* Transição de abertura mais suave */
-.offcanvas.show {
-  transition: transform 0.35s ease-in-out;
-}
+/* =====================================================
+   🧩 AJUSTES RESPONSIVOS
+   ===================================================== */
+@media (max-width: 992px) {
+  /* Ajuste leve na navbar */
+  .navbar {
+    padding: 0.5rem 1rem;
+  }
 
-/* Cabeçalho do menu mobile */
-.offcanvas-header {
-  border-bottom: 1px solid rgba(255,255,255,0.2);
-}
+  /* Garante que o botão ☰ fique bem alinhado */
+  .navbar .btn {
+    font-size: 1.5rem;
+    color: #212529;
+  }
 
-.offcanvas-title {
-  color: #fff;
-  font-weight: 600;
-  letter-spacing: 0.5px;
+  /* Melhora legibilidade do menu mobile */
+  .offcanvas-body .nav-link {
+    font-size: 1.05rem;
+  }
 }
