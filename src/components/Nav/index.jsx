@@ -8,6 +8,19 @@ import Search from "../Search";
 
 function Nav({ onLogout, usuario = {}, children }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const handleNavClick = (path) => {
+    // Fecha o offcanvas se estiver aberto
+    const offcanvasElement = document.querySelector(".offcanvas.show");
+    if (offcanvasElement) {
+      const bsOffcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement);
+      if (bsOffcanvas) bsOffcanvas.hide();
+    }
+
+    // Navega para a rota
+    navigate(path);
+  };
 
   return (
     <div id="home-container" className="d-flex flex-column vh-100">
@@ -100,40 +113,24 @@ function Nav({ onLogout, usuario = {}, children }) {
           <div className="offcanvas-body px-3">
             <ul className="nav flex-column">
               <li className="nav-item mb-2">
-                <Link
-                  to="/servico"
-                  className="nav-link text-white"
-                  data-bs-dismiss="offcanvas"
-                >
+                <button className="nav-link text-white" onClick={() => handleNavClick("/servico")}>
                   Serviços
-                </Link>
+                </button>
               </li>
               <li className="nav-item mb-2">
-                <Link
-                  to="/materiais"
-                  className="nav-link text-white"
-                  data-bs-dismiss="offcanvas"
-                >
+                <button className="nav-link text-white" onClick={() => handleNavClick("/materiais")}>
                   Materiais
-                </Link>
+                </button>
               </li>
               <li className="nav-item mb-2">
-                <Link
-                  to="/clientes"
-                  className="nav-link text-white"
-                  data-bs-dismiss="offcanvas"
-                >
+                <button className="nav-link text-white" onClick={() => handleNavClick("/clientes")}>
                   Clientes
-                </Link>
+                </button>
               </li>
               <li className="nav-item mb-2">
-                <Link
-                  to="/tecnicos"
-                  className="nav-link text-white"
-                  data-bs-dismiss="offcanvas"
-                >
+                <button className="nav-link text-white" onClick={() => handleNavClick("/tecnicos")}>
                   Técnicos
-                </Link>
+                </button>
               </li>
             </ul>
           </div>
