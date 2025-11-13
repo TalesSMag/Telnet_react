@@ -1,63 +1,40 @@
-/* =====================================================
-   🧱 LAYOUT GERAL
-   ===================================================== */
 #home-container {
   height: 100vh;
 }
 
-/* Centraliza o ícone dentro do input-group */
+/* Centraliza ícone dentro do input */
 .input-group-text {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-/* =====================================================
-   🧭 SIDEBAR FIXA (DESKTOP)
-   ===================================================== */
+/* === SIDEBAR (Desktop) === */
 .sidebar {
   width: 220px;
   min-height: calc(100vh - 56px);
-  background-color: #212529;
 }
 
 .sidebar .nav-link {
-  display: block;
-  color: #ffffff;
-  padding: 0.6rem 1rem 0.6rem 1.2rem;
-  margin: 0.3rem 0;
-  border-radius: 6px;
   transition: all 0.3s ease;
-  position: relative;
+  padding-left: 1rem;
 }
 
-.sidebar .nav-link:hover,
-.sidebar .nav-link:focus {
+.sidebar .nav-link:hover {
   background-color: #495057;
-  padding-left: 1.6rem;
-  color: #ffffff;
-  box-shadow: inset 3px 0 0 #ffffff33;
-}
-
-.sidebar .nav-link.active {
-  background-color: #343a40;
-  box-shadow: inset 3px 0 0 #0d6efd;
+  padding-left: 1.5rem;
+  border-radius: 5px;
   color: #ffffff;
 }
 
-/* =====================================================
-   🧢 NAVBAR SUPERIOR
-   ===================================================== */
+/* === NAVBAR === */
 .navbar {
   background-color: #ffffff !important;
   border-bottom: 3px solid #212529;
-  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1),
-              0 2px 4px -2px rgba(0,0,0,0.06);
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.06);
 }
 
-/* =====================================================
-   🚪 BOTÃO DE LOGOUT
-   ===================================================== */
+/* === LOGOUT === */
 .logout-btn {
   border-radius: 8px;
   font-weight: 600;
@@ -77,80 +54,21 @@
   box-shadow: 0 2px 6px rgba(0,0,0,0.2);
 }
 
-/* =====================================================
-   📱 OFFCANVAS (MENU MOBILE)
-   ===================================================== */
-.offcanvas.bg-dark {
-  background-color: #212529 !important;
-}
-
-.offcanvas-header {
-  border-bottom: 1px solid rgba(255,255,255,0.2);
-  padding: 1rem 1.5rem;
-}
-
-.offcanvas-title {
-  color: #fff;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-}
-
-.offcanvas-body {
-  padding: 1rem 1.5rem 2rem 1.5rem;
-}
-
-/* Replicando exatamente o estilo dos links da sidebar */
-.offcanvas-body .nav-link {
-  display: block;
-  color: #ffffff;
-  font-size: 1rem;
-  padding: 0.6rem 1rem 0.6rem 1.2rem;
-  margin: 0.3rem 0;
-  border-radius: 6px;
+/* === OFFCANVAS (Mobile) === */
+.offcanvas .nav-link {
   transition: all 0.3s ease;
-  position: relative;
+  padding-left: 1rem;
+  color: #fff !important;
+  border-radius: 5px;
 }
 
-.offcanvas-body .nav-link:hover,
-.offcanvas-body .nav-link:focus {
+.offcanvas .nav-link:hover {
   background-color: #495057;
-  padding-left: 1.6rem;
-  color: #ffffff;
-  box-shadow: inset 3px 0 0 #ffffff33;
+  padding-left: 1.5rem;
+  color: #ffffff !important;
 }
 
-/* Efeito ativo (para página atual) */
-.offcanvas-body .nav-link.active {
-  background-color: #343a40;
-  box-shadow: inset 3px 0 0 #0d6efd;
-  color: #ffffff;
-}
-
-/* Efeito de toque no mobile */
-.offcanvas-body .nav-link:active {
-  background-color: #6c757d !important;
-  transform: scale(0.98);
-}
-
-/* =====================================================
-   🧩 AJUSTES RESPONSIVOS
-   ===================================================== */
-@media (max-width: 992px) {
-  .navbar {
-    padding: 0.5rem 1rem;
-  }
-
-  .navbar .btn {
-    font-size: 1.5rem;
-    color: #212529;
-  }
-
-  /* Mantém espaçamento e transição suaves no offcanvas */
-  .offcanvas-body .nav-link {
-    padding-left: 1.4rem;
-  }
-
-  .offcanvas-body .nav-link:hover {
-    padding-left: 1.8rem;
-  }
+/* Espaçamento adicional entre os itens */
+.offcanvas .nav-item {
+  margin-left: 0.5rem;
 }
