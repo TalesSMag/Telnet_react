@@ -21,17 +21,17 @@
 }
 
 .sidebar .nav-link {
-  transition: all 0.3s ease; /* transição suave para todas as propriedades */
-  padding: 0.6rem 1rem;
+  transition: all 0.3s ease;
+  padding: 0.6rem 1rem 0.6rem 1.2rem;
   margin: 0.2rem 0;
   border-radius: 5px;
 }
 
 .sidebar .nav-link:hover {
-  background-color: #495057; /* muda o fundo levemente */
-  padding-left: 1.5rem;      /* desloca levemente para a direita */
+  background-color: #495057;
+  padding-left: 1.4rem; /* leve deslocamento */
   border-radius: 5px;
-  color: #ffffff;             /* mantém o texto branco */
+  color: #ffffff;
 }
 
 /* =====================================================
@@ -78,7 +78,7 @@
 /* Cabeçalho do menu mobile */
 .offcanvas-header {
   border-bottom: 1px solid rgba(255,255,255,0.2);
-  padding: 1rem 1.5rem; /* mantém alinhamento com o corpo */
+  padding: 1rem 1.5rem;
 }
 
 .offcanvas-title {
@@ -89,7 +89,7 @@
 
 /* Corpo do menu mobile */
 .offcanvas-body {
-  padding: 1rem 1rem 2rem 1.5rem; /* adiciona recuo à esquerda */
+  padding: 1rem 1rem 2rem 1.5rem;
   display: flex;
   flex-direction: column;
   gap: 0.3rem;
@@ -104,19 +104,17 @@
   border: none;
   color: #ffffff;
   font-size: 1rem;
-  transition: all 0.3s ease;
-  padding: 0.6rem 1.2rem;
+  transition: all 0.25s ease;
+  padding: 0.6rem 1rem 0.6rem 1.2rem; /* igual ao desktop */
   margin: 0.2rem 0;
   border-radius: 5px;
-  margin-left: 0.5rem; /* 👈 adiciona leve margem à esquerda */
 }
 
-/* Hover igual ao desktop */
+/* Hover igual ao desktop, sem empurrar o texto */
 .offcanvas-body .nav-link:hover {
   background-color: #495057;
-  padding-left: 1.5rem;
   color: #ffffff;
-  box-shadow: inset 2px 0 0 #6c757d;
+  box-shadow: inset 4px 0 0 #6c757d; /* barra sutil à esquerda */
 }
 
 /* Efeito de toque (mobile) */
@@ -125,7 +123,7 @@
   background-color: #6c757d !important;
   color: #ffffff !important;
   transform: scale(0.98);
-  box-shadow: inset 2px 0 0 #adb5bd;
+  box-shadow: inset 4px 0 0 #adb5bd;
   outline: none;
 }
 
@@ -138,7 +136,7 @@
     padding: 0.5rem 1rem;
   }
 
-  /* Garante que o botão ☰ fique bem alinhado */
+  /* Ícone ☰ mais visível */
   .navbar .btn {
     font-size: 1.5rem;
     color: #212529;
