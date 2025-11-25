@@ -42,7 +42,7 @@ function Nav({ onLogout, usuario = {}, children }) {
         </button>
 
         {/* Barra de pesquisa */}
-        <div className="flex-grow-1 ms-3 me-3" style={{ maxWidth: "500px" }}>
+        <div className="flex-grow-1 ms-3 me-3 search-container" style={{ maxWidth: "500px" }}>
           <Search />
         </div>
 
@@ -50,7 +50,7 @@ function Nav({ onLogout, usuario = {}, children }) {
         <div className="ms-auto position-relative">
           <FaUserCircle
             size={32}
-            className="text-dark"
+            className="text-dark user-icon"
             style={{ cursor: 'pointer' }}
             onClick={() => setDropdownOpen(!dropdownOpen)}
           />
