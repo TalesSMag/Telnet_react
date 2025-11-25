@@ -193,11 +193,11 @@ function Clientes({ usuario, onLogout }) {
                   <tbody>
                     {clientes.map((cli) => (
                       <tr key={cli.id}>
-                        <td>{cli.nome}</td>
-                        <td>{cli.contato}</td>
-                        <td>{cli.empresa}</td>
-                        <td>{cli.CNPJ}</td>
-                        <td className="acoes">
+                        <td data-label="Nome">{cli.nome}</td>
+                        <td data-label="Contato">{cli.contato}</td>
+                        <td data-label="Empresa">{cli.empresa}</td>
+                        <td data-label="CNPJ">{cli.CNPJ}</td>
+                        <td data-label="Ações" className="acoes">
                           <FaEdit
                             className="icon icon-edit"
                             title="Editar"
@@ -214,7 +214,7 @@ function Clientes({ usuario, onLogout }) {
                   </tbody>
                 </table>
 
-                {/* 🔥 PAGINAÇÃO */}
+                {/* Paginação */}
                 {totalPaginas > 1 && (
                   <div className="paginacao">
                     <button
@@ -222,16 +222,17 @@ function Clientes({ usuario, onLogout }) {
                       onClick={() => handlePageChange(pagina - 1)}
                     >
                       <FaChevronLeft color="white" />
-                      Anterior
+                      <span className="texto-btn">Anterior</span>
                     </button>
-                    <span>
-                      Página {pagina} de {totalPaginas} {carregando && "(carregando...)"}
+                    <span className="pagina-info">
+                      <span className="label">Página </span>
+                      {pagina} de {totalPaginas}
                     </span>
                     <button
                       disabled={pagina === totalPaginas || carregando}
                       onClick={() => handlePageChange(pagina + 1)}
                     >
-                      Próxima 
+                      <span className="texto-btn">Próxima</span>
                       <FaChevronRight color="white" />
                     </button>
                   </div>
