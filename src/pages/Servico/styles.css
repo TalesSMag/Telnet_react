@@ -223,3 +223,28 @@
   }
 }
 
+/* ===== MODO MOBILE ===== */
+@media (max-width: 480px) {
+
+  /* Ocultar textos dos botões, manter só os ícones */
+  .paginacao .texto-btn {
+    display: none;
+  }
+
+  /* Ocultar palavra "Página" no mobile */
+  .paginacao .pagina-info .label {
+    display: none;
+  }
+
+  /* Ajustar tamanho dos botões no mobile */
+  .paginacao button {
+    padding: 6px 10px !important;
+    font-size: 16px !important;
+  }
+
+  /* Deixar o texto central menor e mais elegante */
+  .paginacao .pagina-info {
+    font-size: 16px;
+    font-weight: bold;
+  }
+}
