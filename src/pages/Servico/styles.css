@@ -162,3 +162,64 @@
   background-color: #000;
   transform: translateY(0);
 }
+
+/* ================================
+   EXIBIR TABELA NORMAL NO DESKTOP
+   ================================ */
+@media (min-width: 768px) {
+  .table-custom {
+    display: table;
+  }
+}
+
+/* =====================================
+   MODO CARD PARA MOBILE (até 767px)
+   ===================================== */
+@media (max-width: 767px) {
+
+  .table-custom thead {
+    display: none; /* remove o cabeçalho */
+  }
+
+  .table-custom, 
+  .table-custom tbody, 
+  .table-custom tr, 
+  .table-custom td {
+    display: block;
+    width: 100%;
+  }
+
+  .table-custom tr {
+    background: #fff;
+    margin-bottom: 12px;
+    padding: 12px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  }
+
+  .table-custom td {
+    padding: 10px 8px;
+    border-bottom: none;
+    position: relative;
+  }
+
+  /* Label do campo (ex: Cliente, Data...) */
+  .table-custom td::before {
+    content: attr(data-label);
+    font-weight: bold;
+    color: #444;
+    display: block;
+    margin-bottom: 3px;
+    font-size: 0.85rem;
+  }
+
+  .acoes {
+    justify-content: flex-start;
+    margin-top: 10px;
+  }
+
+  .icon {
+    font-size: 1.4rem;
+  }
+}
+
