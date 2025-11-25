@@ -257,16 +257,17 @@ function Materiais({ usuario, onLogout }) {
                       onClick={() => handlePageChange(pagina - 1)}
                     >
                       <FaChevronLeft color="white" />
-                      Anterior
+                      <span className="texto-btn">Anterior</span>
                     </button>
-                    <span>
-                      Página {pagina} de {totalPaginas}
+                    <span className="pagina-info">
+                      <span className="label">Página </span>
+                      {pagina} de {totalPaginas}
                     </span>
                     <button
                       disabled={pagina === totalPaginas || carregando}
                       onClick={() => handlePageChange(pagina + 1)}
                     >
-                      Próxima 
+                      <span className="texto-btn">Próxima</span>
                       <FaChevronRight color="white" />
                     </button>
                   </div>
