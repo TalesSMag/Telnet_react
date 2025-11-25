@@ -193,11 +193,11 @@ function Tecnicos({ usuario, onLogout }) {
                   <tbody>
                     {tecnicos.map((tec) => (
                       <tr key={tec.id}>
-                        <td>{tec.nome}</td>
-                        <td>{tec.CPF}</td>
-                        <td>{tec.contato}</td>
-                        <td>{tec.fatorRH}</td>
-                        <td className="acoes">
+                        <td data-label="Nome">{tec.nome}</td>
+                        <td data-label="CPF">{tec.CPF}</td>
+                        <td data-label="contato">{tec.contato}</td>
+                        <td data-label="FatorRH">{tec.fatorRH}</td>
+                        <td data-label="Ações" className="acoes">
                           <FaEdit
                             className="icon icon-edit"
                             title="Editar"
@@ -214,7 +214,7 @@ function Tecnicos({ usuario, onLogout }) {
                   </tbody>
                 </table>
 
-                {/* 🔥 PAGINAÇÃO */}
+                {/* Paginação */}
                 {totalPaginas > 1 && (
                   <div className="paginacao">
                     <button
@@ -222,16 +222,17 @@ function Tecnicos({ usuario, onLogout }) {
                       onClick={() => handlePageChange(pagina - 1)}
                     >
                       <FaChevronLeft color="white" />
-                      Anterior
+                      <span className="texto-btn">Anterior</span>
                     </button>
-                    <span>
-                      Página {pagina} de {totalPaginas} {carregando && "(carregando...)"}
+                    <span className="pagina-info">
+                      <span className="label">Página </span>
+                      {pagina} de {totalPaginas}
                     </span>
                     <button
                       disabled={pagina === totalPaginas || carregando}
                       onClick={() => handlePageChange(pagina + 1)}
                     >
-                      Próxima 
+                      <span className="texto-btn">Próxima</span>
                       <FaChevronRight color="white" />
                     </button>
                   </div>
