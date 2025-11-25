@@ -191,7 +191,7 @@ function Materiais({ usuario, onLogout }) {
                       
                       return (
                         <tr key={mat.id} className={isIncompleto ? 'table-warning' : ''}>
-                          <td>
+                          <td data-label="">
                             {isIncompleto && (
                               <span 
                                 className="badge bg-warning" 
@@ -207,7 +207,7 @@ function Materiais({ usuario, onLogout }) {
                               </span>
                             )}
                           </td>
-                          <td>
+                          <td data-label="Descrição">
                             {mat.descricao}
                             {isIncompleto && (
                               <small className="text-muted d-block" style={{ fontSize: '0.8em' }}>
@@ -215,14 +215,14 @@ function Materiais({ usuario, onLogout }) {
                               </small>
                             )}
                           </td>
-                          <td>
+                          <td data-label="Marca">
                             {mat.marca || (
                               <span className="text-muted" style={{ fontStyle: 'italic' }}>
                                 {isIncompleto ? 'Não informado' : '-'}
                               </span>
                             )}
                           </td>
-                          <td>
+                          <td data-label="Preço">
                             {mat.preco > 0 ? (
                               `R$ ${mat.preco.toFixed(2)}`
                             ) : (
@@ -231,7 +231,7 @@ function Materiais({ usuario, onLogout }) {
                               </span>
                             )}
                           </td>
-                          <td className="acoes">
+                          <td data-label="Ações" className="acoes">
                             <FaEdit
                               className="icon icon-edit"
                               title="Editar"
