@@ -434,13 +434,13 @@ function Servico({ usuario, onLogout }) {
                 <tbody>
                 {servico.map((ser) => (
                     <tr key={ser.id}>
-                        <td>{ser.cliente?.nome || "Sem cliente"}</td>
-                        <td>{ser.descricaoServico || "—"}</td>
-                        <td>{ser.data? new Date(ser.data + "T00:00:00").toLocaleDateString("pt-BR", {timeZone: "UTC",}):"—"}</td>
-                        <td>{ser.horaChegada?.substring(0, 5) || "—"}</td>
-                        <td>{ser.horaSaida?.substring(0, 5) || "—"}</td>
-                        <td>{ser.total ? Number(ser.total).toFixed(2) : "0.00"}</td>
-                        <td className="acoes">
+                        <td data-label="Cliente">{ser.cliente?.nome || "Sem cliente"}</td>
+                        <td data-label="Descrição">{ser.descricaoServico || "—"}</td>
+                        <td data-label="Data">{ser.data? new Date(ser.data + "T00:00:00").toLocaleDateString("pt-BR", {timeZone: "UTC",}):"—"}</td>
+                        <td data-label="Chegada">{ser.horaChegada?.substring(0, 5) || "—"}</td>
+                        <td data-label="Saída">{ser.horaSaida?.substring(0, 5) || "—"}</td>
+                        <td data-label="Valor do Serviço">{ser.total ? Number(ser.total).toFixed(2) : "0.00"}</td>
+                        <td data-label="Ações" className="acoes">
                         <FaFileDownload
                           className="icon icon-download"
                           title="Baixar Relatório"
