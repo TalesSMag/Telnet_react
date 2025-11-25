@@ -223,16 +223,35 @@
   }
 }
 
-/* ==== PAGINAÇÃO RESPONSIVA ==== */
+/* ===== Paginação compacta apenas no MOBILE ===== */
 @media (max-width: 480px) {
-  .page-link {
-    padding: 12px 18px !important;
-    font-weight: 500;
-    min-width: 45px;
-    font-size: 15px !important;
-    border-radius: 12px !important;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.07);
+  /* botão "Anterior" (esconde o texto, mantém só o símbolo) */
+  .pagination .page-anterior span {
+    display: none;
+  }
+
+  /* botão "Próximo" (esconde o texto, mantém só o símbolo) */
+  .pagination .page-proximo span {
+    display: none;
+  }
+
+  /* deixa os botões menores e proporcionais no mobile */
+  .pagination .page-link {
+    padding: 6px 10px !important;
+    font-size: 16px !important;
+  }
+
+  /* ajusta o texto "Página X de Y" para "X de Y" */
+  .pagination .page-info {
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  /* remove palavra 'Página' somente no mobile */
+  .pagination .page-info .label {
+    display: none;
   }
 }
+
 
 
