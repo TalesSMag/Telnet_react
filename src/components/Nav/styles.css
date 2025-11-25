@@ -100,7 +100,7 @@
 /* Para telas abaixo de 400px */
 @media (max-width: 400px) {
   .navbar .search-container {
-    max-width: 150px !important; /* diminui a barra de pesquisa */
+    max-width: 250px !important; /* diminui a barra de pesquisa */
     margin: 0 8px !important;
   }
 
