@@ -563,9 +563,10 @@ function CadastroForm({ titulo, endpoint, campos, onCadastroSucesso, initialData
       className="offcanvas offcanvas-end"
       tabIndex="-1"
       id="cadastroOffcanvas"
+      aria-labelledby="cadastroOffcanvasLabel"
     >
       <div className="offcanvas-header">
-        <h5 className="offcanvas-title">
+        <h5 className="offcanvas-title" id="cadastroOffcanvasLabel">
         {editingId ? `Editar ${titulo.replace('Cadastro de ', '')}` : titulo}
         </h5>
         <button
@@ -573,6 +574,7 @@ function CadastroForm({ titulo, endpoint, campos, onCadastroSucesso, initialData
           className="btn-fechar"
           data-bs-dismiss="offcanvas"
           onClick={onClose}
+          aria-label="Fechar"
         >
           ✕
         </button>
@@ -580,8 +582,8 @@ function CadastroForm({ titulo, endpoint, campos, onCadastroSucesso, initialData
       <div className="offcanvas-body">
         <form className="cadastro-form" onSubmit={handleSubmit}>
           {campos.map((campo, index) => (
-            <div key={index}>
-              <label htmlFor={campo.nome}>
+            <div key={index} className="form-field-group">
+              <label htmlFor={campo.nome} className="form-label">
                 {campo.label} {campo.required && "*"}
               </label>
 
@@ -894,8 +896,8 @@ function CadastroForm({ titulo, endpoint, campos, onCadastroSucesso, initialData
           ))}
 
           {camposExtras.map((extra, idx) => (
-            <div key={idx}>
-              <label>{extra.label}</label>
+            <div key={idx} className="form-field-group">
+              <label className="form-label">{extra.label}</label>
               <input
                 type={extra.tipo}
                 name={extra.nome}
