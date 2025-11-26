@@ -20,23 +20,24 @@
   color: #212529;
 }
 
-/* Formulário - ADICIONEI MARGENS */
+/* Formulário - MARGENS COMPLETAS */
 .cadastro-form {
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
 
-/* MARGEM ADICIONADA AQUI - Cada grupo de campo */
+/* MARGEM COMPLETA PARA CADA CAMPO */
 .cadastro-form > div {
-  margin-bottom: 1rem; /* Espaço entre os campos */
+  margin: 0 0 1rem 0; /* top: 0, right: 0, bottom: 1rem, left: 0 */
+  padding: 0 0.5rem; /* ADICIONEI PADDING HORIZONTAL */
 }
 
 .cadastro-form label {
   font-weight: 500;
   color: #212529;
-  display: block; /* Garante que a label fique acima */
-  margin-bottom: 0.5rem; /* Espaço entre label e input */
+  display: block;
+  margin-bottom: 0.5rem;
 }
 
 .cadastro-form input,
@@ -66,7 +67,8 @@
   font-weight: 500;
   border-radius: 6px;
   transition: background-color 0.2s ease;
-  margin-top: 0.5rem; /* Margem adicional no botão */
+  margin: 0.5rem 0.5rem 0 0.5rem; /* MARGEM HORIZONTAL TAMBÉM */
+  width: calc(100% - 1rem); /* COMPENSA A MARGEM */
 }
 
 .btn-salvar:hover {
@@ -89,37 +91,57 @@
   transform: scale(1.1);
 }
 
-/* MARGEM PARA A SEÇÃO DE MATERIAIS */
+/* MARGEM COMPLETA PARA SEÇÃO DE MATERIAIS */
 .materiais-fieldlist {
-  margin: 1rem 0; /* Espaço em volta da seção de materiais */
+  margin: 1rem 0.5rem; /* VERTICAL E HORIZONTAL */
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 6px;
+  border: 1px solid #e9ecef;
 }
 
 .materiais-fieldlist .d-flex {
   gap: 0.5rem;
-  margin-bottom: 1rem; /* Espaço abaixo dos inputs de material */
+  margin-bottom: 1rem;
 }
 
 /* MARGEM PARA A TABELA DE MATERIAIS */
 .materiais-fieldlist .table {
-  margin: 1rem 0; /* Espaço em volta da tabela */
+  margin: 1rem 0;
 }
 
 /* MARGEM PARA O TOTAL DE MATERIAIS */
 .materiais-fieldlist > div:last-child {
-  margin-top: 1rem; /* Espaço acima do total */
+  margin: 1rem 0 0 0;
+  padding: 0 0.5rem; /* PADDING HORIZONTAL */
 }
 
 /* MARGEM PARA CAMPOS EXTRAS */
 .cadastro-form > div:has(input[type="file"]) {
-  margin: 1rem 0;
+  margin: 1rem 0.5rem; /* VERTICAL E HORIZONTAL */
 }
 
 /* MARGEM PARA MENSAGENS DE ALERTA */
 .alert {
-  margin: 1rem 0; /* Já tinha isso, mantendo */
+  margin: 1rem 0.5rem; /* VERTICAL E HORIZONTAL */
+  padding: 12px 16px;
+  border-radius: 6px;
+  font-weight: 500;
 }
 
-/* Restante do CSS permanece EXATAMENTE igual */
+.alert-success {
+  background-color: #d4edda;
+  border: 1px solid #c3e6cb;
+  color: #155724;
+}
+
+.alert-danger {
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  color: #721c24;
+}
+
+/* Restante do CSS permanece igual */
 .card-panel-header {
   display: flex;
   justify-content: center;
@@ -179,25 +201,6 @@
 .material-btn.remove:hover {
   color: #dc3545;
   transform: scale(1.1);
-}
-
-.alert {
-  padding: 12px 16px;
-  border-radius: 6px;
-  margin: 10px 0;
-  font-weight: 500;
-}
-
-.alert-success {
-  background-color: #d4edda;
-  border: 1px solid #c3e6cb;
-  color: #155724;
-}
-
-.alert-danger {
-  background-color: #f8d7da;
-  border: 1px solid #f5c6cb;
-  color: #721c24;
 }
 
 .offcanvas-backdrop {
