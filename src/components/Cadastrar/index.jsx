@@ -252,7 +252,7 @@ function CadastroForm({ titulo, endpoint, campos, onCadastroSucesso, initialData
       }
       const dados = await res.json();
       // backend deve retornar array de materiais com { id, descricao, preco, ... }
-      setMateriaisSugeridos(dados);
+      setMateriaisSugeridos(dados.data || []);
     } catch (err) {
       console.error("erro buscar materiais:", err);
       setMateriaisSugeridos([]);
