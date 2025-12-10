@@ -180,7 +180,7 @@ function CadastroForm({ titulo, endpoint, campos, onCadastroSucesso, initialData
       const res = await fetch(`${API_URL}/api/cliente/search?termo=${nome}`);
       if (res.ok) {
         const dados = await res.json();
-        setClientesSugeridos(dados);
+        setClientesSugeridos(dados.data || []);
       } else {
         setClientesSugeridos([]); // Nenhum cliente encontrado
       }
@@ -214,7 +214,7 @@ function CadastroForm({ titulo, endpoint, campos, onCadastroSucesso, initialData
       const res = await fetch(`${API_URL}/api/tecnico/search?termo=${nome}`);
       if (res.ok) {
         const dados = await res.json();
-        setTecnicosSugeridos(dados);
+        setTecnicosSugeridos(dados.data || []);
       } else {
         setTecnicosSugeridos([]);
       }
