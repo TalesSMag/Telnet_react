@@ -286,7 +286,7 @@ function CadastroForm({ titulo, endpoint, campos, onCadastroSucesso, initialData
           curr.push({
             id: selectedMaterial.id,
             descricao: selectedMaterial.descricao,
-            preco: selectedMaterial.preco,
+            preco: Number(selectedMaterial.preco || 0),
             quantidade,
             // 🔹 Status oculto para materiais existentes
             _status: 'existente'
@@ -841,7 +841,7 @@ function CadastroForm({ titulo, endpoint, campos, onCadastroSucesso, initialData
                                 onChange={(e) =>
                                   setFormData((prev) => {
                                     const newList = [...prev.materiais];
-                                    newList[idx].preco = parseFloat(e.target.value) || 0;
+                                    newList[idx].preco = e.target.value;
                                     newList[idx]._precoPendente = false;
                                     return { ...prev, materiais: newList };
                                   })
