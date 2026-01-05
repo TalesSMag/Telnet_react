@@ -286,7 +286,7 @@ function CadastroForm({ titulo, endpoint, campos, onCadastroSucesso, initialData
           curr.push({
             id: selectedMaterial.id,
             descricao: selectedMaterial.descricao,
-            preco: Number(selectedMaterial.preco || 0),
+            preco: selectedMaterial.preco,
             quantidade,
             // 🔹 Status oculto para materiais existentes
             _status: 'existente'
