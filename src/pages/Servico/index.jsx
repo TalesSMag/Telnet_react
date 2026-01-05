@@ -156,7 +156,7 @@ function Servico({ usuario, onLogout }) {
       }));
   
       // 🔹 Busca os materiais associados ao serviço
-      const resMateriais = await fetch(`http://localhost:3003/api/materialpedido/servico/${servico.id}`);
+      const resMateriais = await fetch(`${API_URL}/api/materialpedido/servico/${servico.id}`);
       if (!resMateriais.ok) {
         throw new Error(`Erro ao buscar materiais (${resMateriais.status})`);
       }
