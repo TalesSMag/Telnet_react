@@ -848,7 +848,9 @@ function CadastroForm({ titulo, endpoint, campos, onCadastroSucesso, initialData
                                 }
                               />
                             ) : (
-                              `R$ ${parseFloat(m.preco || 0).toFixed(2)}`
+                              <span>
+                                  R$ {Number(m.preco ?? 0).toFixed(2)}
+                              </span>
                             )}</td>
                             <td>
                               <button
