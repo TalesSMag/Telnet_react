@@ -213,7 +213,7 @@ function Servico({ usuario, onLogout }) {
 
   const handleDownload = async (id) => { 
     try {
-      const res = await fetch(`http://localhost:3003/api/servico/${id}/detalhes`);
+      const res = await fetch(`${API_URL}/api/servico/${id}/detalhes`);
       const data = await res.json();
   
       if (!data || !data.servico) {
