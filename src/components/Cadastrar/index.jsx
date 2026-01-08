@@ -837,16 +837,22 @@ function CadastroForm({ titulo, endpoint, campos, onCadastroSucesso, initialData
                                 className="form-control"
                                 style={{ width: "100px" }}
                                 placeholder="Preço"
-                                value={m.preco || ""}
+                                value={m.preco ?? ""}
                                 onChange={(e) =>
                                   setFormData((prev) => {
                                     const newList = [...prev.materiais];
                                     newList[idx].preco = e.target.value;
-                                    newList[idx]._precoPendente = false;
                                     return { ...prev, materiais: newList };
                                   })
                                 }
-                              />
+                                onBlur={() =>
+                                  setFormData((prev) => {
+                                    const newList = [...prev.materiais];
+                                    newList[idx]._precoPendente = false;
+                                    return { ...prev, materiais: newList };
+                                  })
+                              }
+                            />
                             ) : (
                               <span>
                                   R$ {Number(m.preco ?? 0).toFixed(2)}
