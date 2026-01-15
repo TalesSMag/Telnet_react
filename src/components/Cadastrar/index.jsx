@@ -421,8 +421,6 @@ function CadastroForm({ titulo, endpoint, campos, onCadastroSucesso, initialData
 
     if (endpoint.includes("/servico")) {
       payload = {
-        cliente: { id: formData.cliente_id },
-        tecnico: { id: formData.tecnico?.id },
         status: formData.status || 1,
         descricaoServico: formData.descricaoServico,
         horaChegada: formData.horaChegada,
@@ -432,6 +430,24 @@ function CadastroForm({ titulo, endpoint, campos, onCadastroSucesso, initialData
         valorServico: parseFloat(formData.valorServico) || 0,
         valorMateriais: calcularTotalMateriais(),
       };
+
+      // 🔹 CLIENTE
+      if (formData.cliente_id) {
+        payload.cliente = { id: formData.cliente_id };
+      } else {
+        payload.cliente = {
+          nome: formData.cliente_nome,
+          empresa: formData.cliente_empresa,
+          contato: formData.cliente_contato,
+          CNPJ: formData.cliente_CNPJ,
+        };
+      }
+    
+      // 🔹 TÉCNICO (sempre por ID)
+      if (formData.tecnico?.id) {
+        payload.tecnico = { id: formData.tecnico.id };
+      }
+    
       console.log("👉 Payload de SERVIÇO:", payload);
     } else if (endpoint.includes("/material") && !file) {
       payload = {
