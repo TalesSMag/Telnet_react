@@ -436,10 +436,10 @@ function CadastroForm({ titulo, endpoint, campos, onCadastroSucesso, initialData
         payload.cliente = { id: formData.cliente_id };
       } else {
         payload.cliente = {
-          nome: formData.cliente_nome,
-          empresa: formData.cliente_empresa,
-          contato: formData.cliente_contato,
-          CNPJ: formData.cliente_CNPJ,
+          nome: formData.nome,
+          empresa: formData.empresa,
+          contato: formData.contato,
+          CNPJ: formData.CNPJ,
         };
       }
     
